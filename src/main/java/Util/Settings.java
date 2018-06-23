@@ -14,18 +14,24 @@ public class Settings {
 	 */
 	public Properties loadSettings() {
 		Properties properties = new Properties();
-		String filePath = new File("").getAbsolutePath();
 		try {
-			FileInputStream file = new FileInputStream(filePath + "/config.properties");
+			FileInputStream file = new FileInputStream("./config.properties");
+			System.getenv().get("ENERGY");
 			properties.load(file);
 			file.close();
 		} catch (IOException e) {
 			System.err.println("Error can't load properties check the config.properties file");
-
+			//load
+			
+			//TODO remove Heroku data
+			properties.setProperty("Prefix", System.getenv().get("Prefix"));
+			properties.setProperty("Prefix", System.getenv().get("Token"));
+			
+			/**
 			// Setup config file
 			properties.setProperty("Prefix", "");
 			properties.setProperty("Token", "");
-
+			 */
 			File f = new File("config.properties");
 			OutputStream out;
 			try {
