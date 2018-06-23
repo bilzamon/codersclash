@@ -21,7 +21,7 @@ public class Main {
 
 	private void initJDA() {
 		JDABuilder builder = new JDABuilder(AccountType.BOT)
-				.setToken("NDYwMDYxNTUxMjYxNjQ2ODU4.Dg_RWQ.G9pRhQI_LT0F6-UX6qPrYCDHGgg");
+				.setToken("NDYwMDYxNTUxMjYxNjQ2ODU4.Dg_Y0g.8kWRWxBEvaAAj-ufkIwqgDKKfeI");
 		builder.setGame(Game.playing("lol"));
 
 		try {

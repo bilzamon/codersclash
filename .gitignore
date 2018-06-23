@@ -7,6 +7,7 @@
 /subprojects/*/bin
 atlassian-ide-plugin.xml
 .metadata/
+/target
 
 ### Java ###
 *.jar
