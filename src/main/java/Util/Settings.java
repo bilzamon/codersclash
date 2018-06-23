@@ -14,9 +14,9 @@ public class Settings {
 	 */
 	public Properties loadSettings() {
 		Properties properties = new Properties();
-
+		String filePath = new File("").getAbsolutePath();
 		try {
-			FileInputStream file = new FileInputStream("./config.properties");
+			FileInputStream file = new FileInputStream(filePath + "/config.properties");
 			properties.load(file);
 			file.close();
 		} catch (IOException e) {
