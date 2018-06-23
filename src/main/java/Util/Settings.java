@@ -16,7 +16,6 @@ public class Settings {
 		Properties properties = new Properties();
 		try {
 			FileInputStream file = new FileInputStream("./config.properties");
-			System.getenv().get("ENERGY");
 			properties.load(file);
 			file.close();
 		} catch (IOException e) {
@@ -39,7 +38,7 @@ public class Settings {
 				properties.store(out, "Enter your data here");
 				out.close();
 				System.out.println("Please enter your data in the config file!");
-				System.exit(0);
+				//System.exit(0);
 			} catch (IOException e1) {
 				System.err.println("Error can't create config file");
 				e1.printStackTrace();
