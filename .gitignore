@@ -1,0 +1,13 @@
+### Eclipse###
+# -------
+*.classpath
+*.project
+*.settings
+/bin
+/subprojects/*/bin
+atlassian-ide-plugin.xml
+.metadata/
+
+### Java ###
+*.jar
+*.properties
