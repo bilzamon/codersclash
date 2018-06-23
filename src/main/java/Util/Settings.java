@@ -24,7 +24,7 @@ public class Settings {
 			
 			//TODO remove Heroku data
 			properties.setProperty("Prefix", System.getenv().get("Prefix"));
-			properties.setProperty("Prefix", System.getenv().get("Token"));
+			properties.setProperty("Token", System.getenv().get("Token"));
 			
 			/**
 			// Setup config file
