@@ -28,13 +28,14 @@ public class Settings {
 			// load
 
 			// TODO remove Heroku data
-			properties.setProperty("Prefix", System.getenv().get("Prefix"));
-			properties.setProperty("Token", System.getenv().get("Token"));
-
-			/**
-			 * // Setup config file properties.setProperty("Prefix", "");
-			 * properties.setProperty("Token", "");
-			 */
+			if (System.getenv().get("Heroku") != null) {
+				properties.setProperty("Prefix", System.getenv().get("Prefix"));
+				properties.setProperty("Token", System.getenv().get("Token"));
+			}else {
+				properties.setProperty("Prefix", "");
+				properties.setProperty("Token", "");
+			}
+			
 			File f = new File("config.properties");
 			OutputStream out;
 			try {
