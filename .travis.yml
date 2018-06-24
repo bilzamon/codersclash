@@ -6,3 +6,5 @@ deploy:
   app: codersclash
   on:
     repo: HGotthard/codersclash
+notifications:
+  webhooks: https://discordapp.com/api/webhooks/460377035789828103/PeQf-YIYJhKkoIJwBHdnK-t008yLDUDLUV4asTbxcWPgKV0l-j2DNHbGD94TF-Bkt7iD
