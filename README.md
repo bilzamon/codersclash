@@ -1,6 +1,5 @@
 # CodersClash
 
-<<<<<<< HEAD
 ## Index
 1. [Repository Tests](#RepositoryTest)
 2. [Commands](#Commands)
@@ -13,8 +12,10 @@
 
 ## Features
 - [x] MySQL
-- [ ] Test2
-- [ ] Open a pull request
+- [ ] XP-System
+- [ ] Report-System
+- [ ] Game-Feature
+- [ ] Voting System
 
 
 ## Commands
@@ -23,10 +24,3 @@
 | test | Test Command |
 
 # Installation
-=======
-| CI | Badge |
-| ------ | ------ |
-| Travis CI | [![Build Status](https://travis-ci.org/discordapp/discord-rpc.svg?branch=master)](https://travis-ci.org/discordapp/discord-rpc) |
-
-
->>>>>>> fc0424dd6a7d9e34b217f3ea20af25081385e4d1
