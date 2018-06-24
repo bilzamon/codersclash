@@ -52,17 +52,16 @@ public class PostgreSQL {
 
 	public void connect() {
 		try {
-
+			Class.forName("org.postgresql.Driver");
 			URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
 			String username = dbUri.getUserinfo().split(":")[0];
 			String password = dbUri.getUserinfo().split(":")[1];
 			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-			
+
 			System.out.println(dbUrl + " " + username + " " + password);
 			System.out.println("Connecting to database...");
-			connection = DriverManager.getConnection(dbUrl, username,
-					password);
+			connection = DriverManager.getConnection(dbUrl, username, password);
 			System.out.println("Connected to database successfully...");
 		} catch (Exception e) {
 			e.printStackTrace();
