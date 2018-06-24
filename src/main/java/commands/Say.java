@@ -1,10 +1,7 @@
 package commands;
 
-import java.awt.Color;
-
 import command.CommandHandler;
 import command.CommandManager.ParsedCommandString;
-import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class Say extends CommandHandler {
@@ -15,8 +12,12 @@ public class Say extends CommandHandler {
 
 	@Override
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
-		event.getTextChannel().sendMessage(new EmbedBuilder().setColor(Color.green)
-				.setDescription("Ping: " + event.getJDA().getPing() + "").build()).queue();
+	    String out = " ";
+        for ( String s : parsedCommand.getArgs()) {
+            out += s + " ";
+        }
+
+        event.getTextChannel().sendMessage(out).queue();
 	}
 
 }

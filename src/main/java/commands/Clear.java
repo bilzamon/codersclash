@@ -21,13 +21,9 @@ public class Clear extends CommandHandler {
 
 	private int getInt(String string) {
 		try {
-
 			return Integer.parseInt(string);
-
 		} catch (Exception exception) {
-
 			exception.printStackTrace();
-
 			return 0;
 		}
 	}
@@ -35,33 +31,26 @@ public class Clear extends CommandHandler {
 	@Override
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
 		String[] args = parsedCommand.getArgs();
-
 		int numb = getInt(args[0]);
 
 		if (args.length < 1) {
-
 			event.getTextChannel().sendMessage(error
-					.setDescription("Bitte benutze die Anzahl von Nachrichten, welche gelÃ¶scht werden sollen").build())
+					.setDescription("Bitte benutze die Anzahl von Nachrichten, welche gelöscht werden sollen").build())
 					.queue();
 		}
 
 		if (numb > 1 && numb <= 100) {
-
 			try {
-
 				MessageHistory history = new MessageHistory(event.getTextChannel());
 				List<Message> msgs;
-
 				event.getMessage().delete().queue();
 
 				msgs = history.retrievePast(numb).complete();
-
 				event.getTextChannel().deleteMessages(msgs).queue();
 
 				if (msgs.size() < Integer.parseInt(args[0])) {
-
 					Message msg = event.getTextChannel().sendMessage(new EmbedBuilder().setColor(Color.ORANGE)
-							.setDescription("Es konnten nur " + msgs.size() + " Nachrichten gelÃ¶scht werden!").build())
+							.setDescription("Es konnten nur " + msgs.size() + " Nachrichten gelöscht werden!").build())
 							.complete();
 
 					new Timer().schedule(new TimerTask() {
@@ -71,14 +60,11 @@ public class Clear extends CommandHandler {
 							msg.delete().queue();
 						}
 					}, 3000);
-
 				} else {
-
 					Message msg = event.getTextChannel().sendMessage(new EmbedBuilder().setColor(Color.GREEN)
-							.setDescription(msgs.size() + " gelÃ¶schte Nachrichten").build()).complete();
+							.setDescription(msgs.size() + " gelöschte Nachrichten").build()).complete();
 
 					new Timer().schedule(new TimerTask() {
-
 						@Override
 						public void run() {
 							msg.delete().queue();
@@ -87,18 +73,12 @@ public class Clear extends CommandHandler {
 				}
 
 				System.out.println("[INFO]: Es wurden " + msgs.size() + " Nachrichten gelÃ¶scht");
-
 			} catch (Exception e) {
-
 				e.printStackTrace();
 			}
-
 		} else {
-
 			event.getTextChannel()
 					.sendMessage(error.setDescription("Bitte benutze eine Zahl zwischen 2 und 100!").build()).queue();
 		}
-
 	}
-
 }
