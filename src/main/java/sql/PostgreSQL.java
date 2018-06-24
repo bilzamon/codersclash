@@ -50,6 +50,7 @@ public class PostgreSQL {
 
 	public void connect() {
 		try {
+			System.out.println("jdbc:postgresql://" + host + ":" + port + "/" + database + user + password);
 			Class.forName("org.postgresql.Driver");
 			System.out.println("Connecting to database...");
 			connection = DriverManager.getConnection("jdbc:postgresql://" + host + ":" + port + "/" + database, user,
