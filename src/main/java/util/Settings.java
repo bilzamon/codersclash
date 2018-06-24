@@ -34,7 +34,8 @@ public class Settings {
 
 				properties.setProperty("Host", System.getenv().get("Host"));
 				properties.setProperty("Database", System.getenv().get("Database"));
-				properties.setProperty("User", System.getenv().get("Port"));
+				properties.setProperty("User", System.getenv().get("User"));
+				properties.setProperty("Port", System.getenv().get("Port"));
 				properties.setProperty("Password", System.getenv().get("Password"));
 			} else {
 				properties.setProperty("Prefix", "");
@@ -43,6 +44,7 @@ public class Settings {
 				properties.setProperty("Host", "");
 				properties.setProperty("Database", "");
 				properties.setProperty("User", "");
+				properties.setProperty("Port", "");
 				properties.setProperty("Password", "");
 			}
 
