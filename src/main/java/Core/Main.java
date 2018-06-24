@@ -5,6 +5,7 @@ import java.util.Properties;
 import javax.security.auth.login.LoginException;
 
 import Command.CommandManager;
+import Commands.CommandTest;
 import Util.Settings;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -32,7 +33,7 @@ public class Main {
 	}
 
 	private void initCommandHandlers(CommandManager commandManager) {
-		commandManager.setupCommandHandlers();
+		commandManager.setupCommandHandlers(new CommandTest());
 
 	}
 
