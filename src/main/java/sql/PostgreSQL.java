@@ -56,7 +56,7 @@ public class PostgreSQL {
 			Class.forName("org.postgresql.Driver");
 
 			System.out.println("Connecting to database...");
-			connection = DriverManager.getConnection("jdbc:postgresql://" + host + ':' + port + database, user,
+			connection = DriverManager.getConnection("jdbc:postgresql://" + host + ':' + port + "/" + database, user,
 					password);
 			System.out.println("Connected to database successfully...");
 		} catch (Exception e) {
