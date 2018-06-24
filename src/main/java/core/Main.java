@@ -9,6 +9,7 @@ import commands.CommandTest;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import sql.PostgreSQL;
 import util.Settings;
 
 /**
@@ -27,15 +28,29 @@ public class Main {
 	 */
 	public Main() {
 		properties = new Settings().loadSettings();
+		
+		setupSQL();
 		initJDA();
+		
 		CommandManager commandManager = new CommandManager();
 		initCommandHandlers(commandManager);
 	}
 
 	/**
+	 * Setup SQL.
+	 */
+	private void setupSQL() {
+		PostgreSQL sql = new PostgreSQL(properties.getProperty("Host"), properties.getProperty("Port"),
+				properties.getProperty("User"), properties.getProperty("Password"), properties.getProperty("Database"));
+		sql.connect();
+
+	}
+
+	/**
 	 * Inits the command handlers.
 	 *
-	 * @param commandManager the command manager
+	 * @param commandManager
+	 *            the command manager
 	 */
 	private void initCommandHandlers(CommandManager commandManager) {
 		commandManager.setupCommandHandlers(new CommandTest());
@@ -81,7 +96,8 @@ public class Main {
 	/**
 	 * The main method.
 	 *
-	 * @param args the arguments
+	 * @param args
+	 *            the arguments
 	 */
 	public static void main(String[] args) {
 		new Main();

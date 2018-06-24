@@ -31,11 +31,21 @@ public class Settings {
 			if (System.getenv().get("Heroku") != null) {
 				properties.setProperty("Prefix", System.getenv().get("Prefix"));
 				properties.setProperty("Token", System.getenv().get("Token"));
-			}else {
+
+				properties.setProperty("Host", System.getenv().get("Host"));
+				properties.setProperty("Database", System.getenv().get("Database"));
+				properties.setProperty("User", System.getenv().get("Port"));
+				properties.setProperty("Password", System.getenv().get("Password"));
+			} else {
 				properties.setProperty("Prefix", "");
 				properties.setProperty("Token", "");
+
+				properties.setProperty("Host", "");
+				properties.setProperty("Database", "");
+				properties.setProperty("User", "");
+				properties.setProperty("Password", "");
 			}
-			
+
 			File f = new File("config.properties");
 			OutputStream out;
 			try {
