@@ -58,13 +58,12 @@ public class PostgreSQL {
 			System.out.println("Connecting to database...");
 			connection = DriverManager.getConnection("jdbc:postgresql://" + host + ':' + port + "/" + database, user,
 					password);
-			System.out.println("Connected to database successfully...");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Can't connect to database. Please check the config file or connection.");
 			System.exit(0);
 		}
-		System.out.println("Opened database successfully");
+		System.out.println("Connected to database successfully...");
 	}
 
 	/**
