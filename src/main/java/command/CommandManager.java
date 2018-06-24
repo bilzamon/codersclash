@@ -7,7 +7,12 @@ import core.Main;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
+/**
+ * The Class CommandManager.
+ */
 public class CommandManager extends ListenerAdapter {
+
+	/** The Constant commandAssociations. */
 	private final static HashMap<String, CommandHandler> commandAssociations = new HashMap<>();
 
 	@Override
@@ -26,6 +31,12 @@ public class CommandManager extends ListenerAdapter {
 		}
 	}
 
+	/**
+	 * Sets the up command handlers.
+	 *
+	 * @param commandHandler
+	 *            the new up command handlers
+	 */
 	public void setupCommandHandlers(CommandHandler commandHandler) {
 		if (commandAssociations.containsKey(commandHandler.getInvokeString().toLowerCase())) {
 			return;
@@ -35,10 +46,24 @@ public class CommandManager extends ListenerAdapter {
 
 	}
 
+	/**
+	 * Gets the command handler.
+	 *
+	 * @param invocationAlias
+	 *            the invocation alias
+	 * @return the command handler
+	 */
 	public CommandHandler getCommandHandler(String invocationAlias) {
 		return commandAssociations.get(invocationAlias.toLowerCase());
 	}
 
+	/**
+	 * Parses the.
+	 *
+	 * @param message
+	 *            the message
+	 * @return the parsed command string
+	 */
 	private ParsedCommandString parse(String message) {
 		if (message.startsWith(Main.getProperties().getProperty("Prefix"))) {
 			String beheaded = message.replaceFirst("\\" + Main.getProperties().getProperty("Prefix"), "");
@@ -49,19 +74,44 @@ public class CommandManager extends ListenerAdapter {
 		return null;
 	}
 
+	/**
+	 * The Class ParsedCommandString.
+	 */
 	public static final class ParsedCommandString {
+
+		/** The command. */
 		private final String command;
+
+		/** The args. */
 		private final String[] args;
 
+		/**
+		 * Instantiates a new parsed command string.
+		 *
+		 * @param command
+		 *            the command
+		 * @param args
+		 *            the args
+		 */
 		public ParsedCommandString(String command, String[] args) {
 			this.command = command;
 			this.args = args;
 		}
 
+		/**
+		 * Gets the command.
+		 *
+		 * @return the command
+		 */
 		public String getCommand() {
 			return command;
 		}
 
+		/**
+		 * Gets the args.
+		 *
+		 * @return the args
+		 */
 		public String[] getArgs() {
 			return args;
 		}

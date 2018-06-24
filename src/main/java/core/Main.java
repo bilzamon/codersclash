@@ -32,6 +32,11 @@ public class Main {
 		initCommandHandlers(commandManager);
 	}
 
+	/**
+	 * Inits the command handlers.
+	 *
+	 * @param commandManager the command manager
+	 */
 	private void initCommandHandlers(CommandManager commandManager) {
 		commandManager.setupCommandHandlers(new CommandTest());
 
@@ -64,6 +69,11 @@ public class Main {
 		return jda;
 	}
 
+	/**
+	 * Gets the properties.
+	 *
+	 * @return the properties
+	 */
 	public static Properties getProperties() {
 		return properties;
 	}
@@ -71,8 +81,7 @@ public class Main {
 	/**
 	 * The main method.
 	 *
-	 * @param args
-	 *            the arguments
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		new Main();
