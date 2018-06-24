@@ -5,7 +5,7 @@ import java.util.Properties;
 import javax.security.auth.login.LoginException;
 
 import command.CommandManager;
-import commands.CommandTest;
+import commands.TestCommand;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -53,7 +53,7 @@ public class Main {
 	 *            the command manager
 	 */
 	private void initCommandHandlers(CommandManager commandManager) {
-		commandManager.setupCommandHandlers(new CommandTest());
+		commandManager.setupCommandHandlers(new TestCommand());
 
 	}
 

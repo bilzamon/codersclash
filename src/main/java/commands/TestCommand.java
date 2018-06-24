@@ -7,12 +7,12 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 /**
  * The Class CommandTest.
  */
-public class CommandTest extends CommandHandler {
+public class TestCommand extends CommandHandler {
 
 	/**
 	 * Instantiates a new command test.
 	 */
-	public CommandTest() {
+	public TestCommand() {
 		super("test");
 	}
 
