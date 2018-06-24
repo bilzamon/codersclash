@@ -1,9 +1,9 @@
-package Command;
+package command;
 
 import java.util.Arrays;
 import java.util.HashMap;
 
-import Core.Main;
+import core.Main;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 

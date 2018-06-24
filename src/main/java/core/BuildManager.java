@@ -1,6 +1,6 @@
-package Core;
+package core;
 
-import Command.CommandManager;
+import command.CommandManager;
 import net.dv8tion.jda.core.JDABuilder;
 
 /**

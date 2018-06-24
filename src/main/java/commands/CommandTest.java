@@ -1,7 +1,7 @@
-package Commands;
+package commands;
 
-import Command.CommandHandler;
-import Command.CommandManager.ParsedCommandString;
+import command.CommandHandler;
+import command.CommandManager.ParsedCommandString;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class CommandTest extends CommandHandler {

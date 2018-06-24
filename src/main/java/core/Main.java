@@ -1,15 +1,15 @@
-package Core;
+package core;
 
 import java.util.Properties;
 
 import javax.security.auth.login.LoginException;
 
-import Command.CommandManager;
-import Commands.CommandTest;
-import Util.Settings;
+import command.CommandManager;
+import commands.CommandTest;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import util.Settings;
 
 /**
  * The Class Main.
