@@ -1,9 +1,10 @@
 # CodersClash
 
 ## Index
-1. [Repository Tests](#RepositoryTest)
-2. [Commands](#Commands)
-3. [Installation](#Installation)
+1. [Repository Tests](#repository-test)
+2. [Features](#features)
+3. [Commands](#commands)
+4. [Installation](#installation)
 
 ## Repository Test
 | CI | Status |
