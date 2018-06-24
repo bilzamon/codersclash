@@ -72,7 +72,7 @@ public class Clear extends CommandHandler {
 					}, 3000);
 				}
 
-				System.out.println("[INFO]: Es wurden " + msgs.size() + " Nachrichten gelÃ¶scht");
+				System.out.println("[INFO]: Es wurden " + msgs.size() + " Nachrichten gelöscht");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
