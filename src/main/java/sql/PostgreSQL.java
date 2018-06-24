@@ -60,7 +60,6 @@ public class PostgreSQL {
 			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
 			
 			System.out.println(dbUrl + " " + username + " " + password);
-			Class.forName("org.postgresql.Driver");
 			System.out.println("Connecting to database...");
 			connection = DriverManager.getConnection(dbUrl, username,
 					password);
