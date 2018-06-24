@@ -6,5 +6,11 @@ deploy:
   app: codersclash
   on:
     repo: HGotthard/codersclash
-notifications:
-  webhooks: https://discordapp.com/api/webhooks/460377035789828103/PeQf-YIYJhKkoIJwBHdnK-t008yLDUDLUV4asTbxcWPgKV0l-j2DNHbGD94TF-Bkt7iD
+after_success:
+  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh success $WEBHOOK_URL
+after_failure:
+  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure $WEBHOOK_URL
