@@ -65,6 +65,7 @@ public class PostgreSQL {
 					password);
 			System.out.println("Connected to database successfully...");
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.err.println("Can't connect to database. Please check the config file or connection.");
 			System.exit(0);
 		}
