@@ -1,1 +1,16 @@
 language: java
+deploy:
+  provider: heroku
+  api_key:
+    secure: zOFDm8mYk0+cRdf10Ua9o1A8/IrHYQQfa2Qj1RA7w3aQ6QnXfaIkf/gyvbGFPXIZuphJugO+pusgztrIKMTJkwpDMPhMdmnSrKnNoCUfiCGe7XzlCKApmoUTw02D0hO3W4TwlvsHoEKoDcDQegNYK7k14yNfr222LNuaqIMMKqzs+ZGUnw3m/qn19WNfWjKcjIomZvMRcTRXiUWcaCZQKLveqYEIC0fU7+WyIoxz5JMtdox3sHAfow4+G15Q+Gse6GxiOQLSs0+vVaRoyAvKUZ1UoEdbx7BEexEI9yXezNEaLXDcbgtXFaupZ5CaSZmA7Exfdp/2lcFsea/6w92qPhnhkHg2kjGg87OyiE7RhDCVmts8IX7ZX9TEBga0/Lv5fthWTItYZnma7bp6NGHrTWEmQQIkrPViI3GXCELI/c9Mx+S9yoNy/NgYo37IsYbCIjJd0AX66Mh4IAybM4h2rnYD8DwamCrIpzaU8z8Xq8rId/kHBpn65Ma05cu+eJFm/78rxhhHmBB1+evSXS02XZb59RtUdMm9fDKw6BSem5fQpH+6V4dtEPfJN+e7Zsfi0rS8WronVcX4ba8zItmsSdqubIp/Po2m96lCERxMU8bfBkj0W1hEK3sZ5aS5RiqUadX+9WIjOjXF5xlQONncO5e/g5GrD2v6O/UEFAHGtwA=
+  app: codersclash
+  on:
+    repo: HGotthard/codersclash
+after_success:
+  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh success $WEBHOOK_URL
+after_failure:
+  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure $WEBHOOK_URL
