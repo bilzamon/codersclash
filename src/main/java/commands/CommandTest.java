@@ -21,7 +21,7 @@ public class CommandTest extends CommandHandler {
 	 */
 	@Override
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
-		System.out.println("test");
+		event.getTextChannel().sendMessage("Test command").queue();
 	}
 
 }
