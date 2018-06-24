@@ -54,7 +54,6 @@ public class Clear extends CommandHandler {
 							.complete();
 
 					new Timer().schedule(new TimerTask() {
-
 						@Override
 						public void run() {
 							msg.delete().queue();
