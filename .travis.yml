@@ -10,6 +10,7 @@ after_failure:
   - chmod +x send.sh
   - ./send.sh failure $WEBHOOK_URL
 notifications:
+  webhooks: https://maker.ifttt.com/trigger/travis_trigger/with/key/mgTT-g4r3US9_gLwvmHwqH6nqBduvRfCMX2JzFCIXCe
   email:
-    on_success: change
+    on_success: always
     on_failure: always
