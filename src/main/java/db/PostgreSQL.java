@@ -130,12 +130,12 @@ public class PostgreSQL {
 			if (connection.isClosed()) {
 				connect();
 			}
-			PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS `xp`(\r\n" + 
+			PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS 'xp'(\r\n" + 
 					"    `id` INT(11) NOT NULL AUTO_INCREMENT,\r\n" + 
 					"    `userid` VARCHAR(50) NOT NULL,\r\n" + 
 					"    `totalxp` BIGINT(12) NOT NULL,\r\n" + 
 					"    `level` INT(11) NOT NULL,\r\n" + 
-					"    PRIMARY KEY(`id`)\r\n" + 
+					"    PRIMARY KEY('id')\r\n" + 
 					") ENGINE = InnoDB DEFAULT CHARSET = utf8;");
 			ps.execute();
 		} catch (SQLException e) {
