@@ -31,5 +31,4 @@ public class BuildManager {
 		builder.addEventListener(new ReadyListener());
 		builder.addEventListener(new XpListener());
 	}
-
 }

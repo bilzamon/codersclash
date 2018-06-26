@@ -14,9 +14,14 @@ public class Xp extends CommandHandler {
 	@Override
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
 		if (parsedCommand.getArgs().length == 0) {
-			event.getTextChannel().sendMessage(UserData.fromId(event.getAuthor().getId()).getLevel() + "").queue();
+			UserData data = UserData.fromId(event.getAuthor().getId());
+			if (data != null) {
+				event.getTextChannel().sendMessage("Level: " + data.getLevel()).queue();
+			} else {
+				event.getTextChannel().sendMessage("no xp").queue();
+			}
 		} else {
-			//TODO other users
+			// TODO other users
 		}
 	}
 }

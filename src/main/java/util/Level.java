@@ -5,8 +5,8 @@ public class Level {
 		int level = 0;
 		boolean complete = true;
 
-		long xp = calcLevelToTotalXp(level);
 		while (complete) {
+			long xp = calcLevelToTotalXp(level);
 			if (totalXp < xp) {
 				complete = false;
 			} else {

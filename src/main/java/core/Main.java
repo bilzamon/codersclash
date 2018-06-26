@@ -1,7 +1,5 @@
 package core;
 
-import java.util.Properties;
-
 import javax.security.auth.login.LoginException;
 
 import command.CommandManager;
@@ -12,7 +10,7 @@ import commands.Say;
 import commands.TestCommand;
 import commands.UserInfo;
 import commands.Xp;
-import db.PostgreSQL;
+import db.Mysql;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -24,33 +22,22 @@ import util.Settings;
 public class Main {
 
 	/** The jda. */
-	private JDA jda;
+	private static JDA jda;
 
-	/** The properties. */
-	private static Properties properties;
-
-	private static PostgreSQL sql;
+	private static Mysql sql;
 
 	/**
 	 * Instantiates a new main.
 	 */
 	public Main() {
-		properties = new Settings().loadSettings();
+		Settings.loadSettings();
 
-		setupSQL();
+		Mysql.connect();
+
 		initJDA();
 
 		CommandManager commandManager = new CommandManager();
 		initCommandHandlers(commandManager);
-	}
-
-	/**
-	 * Setup SQL.
-	 */
-	private void setupSQL() {
-		sql = new PostgreSQL(properties.getProperty("Host"), properties.getProperty("Port"),
-				properties.getProperty("User"), properties.getProperty("Password"), properties.getProperty("Database"));
-		sql.connect();
 	}
 
 	/**
@@ -73,7 +60,7 @@ public class Main {
 	 * Inits the JDA.
 	 */
 	private void initJDA() {
-		JDABuilder builder = new JDABuilder(AccountType.BOT).setToken(properties.getProperty("Token"));
+		JDABuilder builder = new JDABuilder(AccountType.BOT).setToken(Settings.TOKEN);
 
 		new BuildManager(builder);
 
@@ -92,24 +79,15 @@ public class Main {
 	 *
 	 * @return the jda
 	 */
-	public JDA getJda() {
+	public static JDA getJda() {
 		return jda;
 	}
 
-	/**
-	 * Gets the properties.
-	 *
-	 * @return the properties
-	 */
-	public static Properties getProperties() {
-		return properties;
-	}
-	
-	
-
-	public static PostgreSQL getSql() {
+	public static Mysql getSql() {
 		return sql;
 	}
+	
+	
 
 	/**
 	 * The main method.
