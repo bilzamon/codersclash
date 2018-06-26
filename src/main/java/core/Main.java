@@ -11,6 +11,7 @@ import commands.Ping;
 import commands.Say;
 import commands.TestCommand;
 import commands.UserInfo;
+import commands.Xp;
 import db.PostgreSQL;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -65,6 +66,7 @@ public class Main {
 		commandManager.setupCommandHandlers(new Say());
 		commandManager.setupCommandHandlers(new TestCommand());
 		commandManager.setupCommandHandlers(new UserInfo());
+		commandManager.setupCommandHandlers(new Xp());
 	}
 
 	/**
