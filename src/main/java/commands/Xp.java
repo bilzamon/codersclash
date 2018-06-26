@@ -1,9 +1,13 @@
 package commands;
 
+import java.awt.Color;
+
 import command.CommandHandler;
 import command.CommandManager.ParsedCommandString;
 import db.UserData;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import util.Level;
 
 public class Xp extends CommandHandler {
 
@@ -16,7 +20,14 @@ public class Xp extends CommandHandler {
 		if (parsedCommand.getArgs().length == 0) {
 			UserData data = UserData.fromId(event.getAuthor().getId());
 			if (data != null) {
-				event.getTextChannel().sendMessage("Level: " + data.getLevel()).queue();
+				event.getChannel()
+						.sendMessage(new EmbedBuilder().setColor(Color.green)
+								.setTitle("Level: " + data.getLevel() + " (" + Level.remainingXp(data.getTotalXp()) + "/"
+										+ Level.xpToLevelUp(data.getLevel()) + ")" + "XP")
+								.setFooter(event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator(),
+										event.getAuthor().getAvatarUrl())
+								.build())
+						.queue();
 			} else {
 				event.getTextChannel().sendMessage("no xp").queue();
 			}

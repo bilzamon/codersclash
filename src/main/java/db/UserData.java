@@ -80,7 +80,6 @@ public class UserData {
 	}
 
 	public void setLevel(int level) {
-		System.out.println(level + ">" + this.level);
 		if (level > this.level) {
 			try {
 				Main.getJda().getUserById(this.userId).openPrivateChannel().queue((channel) -> {
