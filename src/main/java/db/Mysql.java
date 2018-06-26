@@ -34,6 +34,8 @@ public class Mysql {
 		}
 		System.out.println("Connected to database successfully...");
 		generateXpTable();
+		generateReportTable();
+		generateReportCountTable();
 	}
 
 	/**
@@ -91,6 +93,51 @@ public class Mysql {
 		return null;
 	}
 
+	public static void insertReport(String userId, String reason) {
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO `report` (userid,reason) VALUES(?,?)");
+			ps.setString(1, userId);
+			ps.setString(2, reason);
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void insertReportCount(String userId, int count) {
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+			PreparedStatement ps = connection.prepareStatement("REPLACE INTO `reportcount` (userid,count) VALUES(?,?)");
+			ps.setString(1, userId);
+			ps.setInt(2, count);
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static int loadReportCount(String userId) {
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM `reportcount` WHERE `userid` = ?");
+			ps.setString(1, userId);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(2);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 	public static void generateXpTable() {
 		try {
 			if (connection.isClosed()) {
@@ -98,6 +145,32 @@ public class Mysql {
 			}
 			PreparedStatement ps = connection.prepareStatement(
 					"CREATE TABLE IF NOT EXISTS xp( `id` INT(11) NOT NULL AUTO_INCREMENT, `userid` VARCHAR(50) NOT NULL, `totalxp` BIGINT(12) NOT NULL, `level` INT(11) NOT NULL, PRIMARY KEY(`id`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void generateReportTable() {
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+			PreparedStatement ps = connection.prepareStatement(
+					"CREATE TABLE IF NOT EXISTS report( `id` INT(11) NOT NULL AUTO_INCREMENT, `userid` VARCHAR(50) NOT NULL, `reason` VARCHAR(50) NOT NULL, PRIMARY KEY(`id`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void generateReportCountTable() {
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+			PreparedStatement ps = connection.prepareStatement(
+					"CREATE TABLE IF NOT EXISTS reportcount( `userid` VARCHAR(50) NOT NULL, `count` INT(11) NOT NULL, PRIMARY KEY(`userid`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

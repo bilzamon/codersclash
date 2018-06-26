@@ -6,6 +6,7 @@ import command.CommandManager;
 import commands.Clear;
 import commands.GuildInfo;
 import commands.Ping;
+import commands.Report;
 import commands.Say;
 import commands.TestCommand;
 import commands.UserInfo;
@@ -54,6 +55,7 @@ public class Main {
 		commandManager.setupCommandHandlers(new TestCommand());
 		commandManager.setupCommandHandlers(new UserInfo());
 		commandManager.setupCommandHandlers(new Xp());
+		commandManager.setupCommandHandlers(new Report());
 	}
 
 	/**

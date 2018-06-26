@@ -27,7 +27,7 @@ public class ReadyListener extends ListenerAdapter {
 	 */
 	public void onReady(ReadyEvent event) {
 
-		String out = "\nBlue lÃ¤uft auf:\n" + "----------------------------------\n";
+		String out = "\nBlue läuft auf:\n" + "----------------------------------\n";
 
 		for (Guild g : event.getJDA().getGuilds()) {
 			out += "-" + g.getName() + "\n";
