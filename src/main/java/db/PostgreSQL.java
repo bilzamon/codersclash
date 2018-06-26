@@ -130,7 +130,7 @@ public class PostgreSQL {
 				connect();
 			}
 			PreparedStatement ps = connection.prepareStatement(
-					"CREATE TABLE IF NOT EXISTS `xp`( `id` INT(11) NOT NULL AUTO_INCREMENT, `userid` VARCHAR(50) NOT NULL, `totalxp` BIGINT(12) NOT NULL, `level` INT(11) NOT NULL, PRIMARY KEY(`id`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
+					"CREATE TABLE IF NOT EXISTS xp( `id` INT(11) NOT NULL AUTO_INCREMENT, `userid` VARCHAR(50) NOT NULL, `totalxp` BIGINT(12) NOT NULL, `level` INT(11) NOT NULL, PRIMARY KEY(`id`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
