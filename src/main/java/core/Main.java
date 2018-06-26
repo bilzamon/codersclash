@@ -11,10 +11,10 @@ import commands.Ping;
 import commands.Say;
 import commands.TestCommand;
 import commands.UserInfo;
+import db.PostgreSQL;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
-import sql.PostgreSQL;
 import util.Settings;
 
 /**
@@ -28,15 +28,17 @@ public class Main {
 	/** The properties. */
 	private static Properties properties;
 
+	private static PostgreSQL sql;
+
 	/**
 	 * Instantiates a new main.
 	 */
 	public Main() {
 		properties = new Settings().loadSettings();
-		
+
 		setupSQL();
 		initJDA();
-		
+
 		CommandManager commandManager = new CommandManager();
 		initCommandHandlers(commandManager);
 	}
@@ -45,10 +47,9 @@ public class Main {
 	 * Setup SQL.
 	 */
 	private void setupSQL() {
-		PostgreSQL sql = new PostgreSQL(properties.getProperty("Host"), properties.getProperty("Port"),
+		sql = new PostgreSQL(properties.getProperty("Host"), properties.getProperty("Port"),
 				properties.getProperty("User"), properties.getProperty("Password"), properties.getProperty("Database"));
 		sql.connect();
-
 	}
 
 	/**
@@ -100,6 +101,12 @@ public class Main {
 	 */
 	public static Properties getProperties() {
 		return properties;
+	}
+	
+	
+
+	public static PostgreSQL getSql() {
+		return sql;
 	}
 
 	/**
