@@ -1,5 +1,6 @@
 package db;
 
+import core.Main;
 import util.Level;
 
 // TODO: Auto-generated Javadoc
@@ -15,10 +16,10 @@ public class UserData {
 	private String userId;
 
 	/** The total xp. */
-	private long totalXp;
+	private long totalXp = 0;
 
 	/** The level. */
-	private int level;
+	private int level = 0;
 
 	/**
 	 * Gets the id.
@@ -64,22 +65,40 @@ public class UserData {
 		this.userId = userId;
 	}
 
+	public void setDBTotalXp(long totalXp) {
+		this.totalXp = totalXp;
+	}
+
 	public void setTotalXp(long totalXp) {
 		this.totalXp = totalXp;
 
 		setLevel(Level.calcLevel(totalXp));
 	}
 
-	public void setLevel(int level) {
+	public void setDBLevel(int level) {
 		this.level = level;
 	}
 
+	public void setLevel(int level) {
+		System.out.println(level + ">" + this.level);
+		if (level > this.level) {
+			try {
+				Main.getJda().getUserById(this.userId).openPrivateChannel().queue((channel) -> {
+					channel.sendMessage("Congratulations, you are now level " + level + "! :tada: ").queue();
+				});
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			this.level = level;
+		}
+	}
+
 	public void save(UserData data) {
-		PostgreSQL.saveUserData(data);
+		Mysql.saveUserData(data);
 	}
 
 	public static UserData fromId(String id) {
-		return PostgreSQL.loadFromId(id);
+		return Mysql.loadFromId(id);
 	}
 
 }

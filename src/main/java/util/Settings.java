@@ -11,13 +11,21 @@ import java.util.Properties;
  * The Class Settings.
  */
 public class Settings {
+	public static String PREFIX;
+	public static String TOKEN;
+
+	public static String HOST;
+	public static String DATABASE;
+	public static String PORT;
+	public static String USER;
+	public static String PASSWORD;
 
 	/**
 	 * Load settings.
 	 *
 	 * @return the properties
 	 */
-	public Properties loadSettings() {
+	public static void loadSettings() {
 		Properties properties = new Properties();
 		try {
 			FileInputStream file = new FileInputStream("./config.properties");
@@ -25,28 +33,15 @@ public class Settings {
 			file.close();
 		} catch (IOException e) {
 			System.err.println("Error can't load properties check the config.properties file");
-			// load
 
-			// TODO remove Heroku data
-			if (System.getenv().get("Heroku") != null) {
-				properties.setProperty("Prefix", System.getenv().get("Prefix"));
-				properties.setProperty("Token", System.getenv().get("Token"));
-
-				properties.setProperty("Host", System.getenv().get("Host"));
-				properties.setProperty("Database", System.getenv().get("Database"));
-				properties.setProperty("User", System.getenv().get("User"));
-				properties.setProperty("Port", System.getenv().get("Port"));
-				properties.setProperty("Password", System.getenv().get("Password"));
-			} else {
-				properties.setProperty("Prefix", "");
-				properties.setProperty("Token", "");
-
-				properties.setProperty("Host", "");
-				properties.setProperty("Database", "");
-				properties.setProperty("User", "");
-				properties.setProperty("Port", "");
-				properties.setProperty("Password", "");
-			}
+			properties.setProperty("Prefix", "");
+			properties.setProperty("Token", "");
+			// MySQL
+			properties.setProperty("Host", "");
+			properties.setProperty("Database", "");
+			properties.setProperty("User", "");
+			properties.setProperty("Port", "");
+			properties.setProperty("Password", "");
 
 			File f = new File("config.properties");
 			OutputStream out;
@@ -55,13 +50,21 @@ public class Settings {
 				properties.store(out, "Enter your data here");
 				out.close();
 				System.out.println("Please enter your data in the config file!");
-				// System.exit(0);
+				System.exit(0);
 			} catch (IOException e1) {
 				System.err.println("Error can't create config file");
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
 		}
-		return properties;
+
+		PREFIX = properties.getProperty("Prefix");
+		TOKEN = properties.getProperty("Token");
+
+		HOST = properties.getProperty("Host");
+		PORT = properties.getProperty("Port");
+		USER = properties.getProperty("User");
+		PASSWORD = properties.getProperty("Password");
+		DATABASE = properties.getProperty("Database");
 	}
 }

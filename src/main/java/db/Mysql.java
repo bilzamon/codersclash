@@ -6,60 +6,27 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import util.Settings;
+
 /**
  * The Class PostgreSQL.
  */
-public class PostgreSQL {
+public class Mysql {
 	/** The connection. */
 	private static Connection connection;
 
-	/** The host. */
-	private static String host;
-
-	/** The port. */
-	private static String port;
-
-	/** The user. */
-	private static String user;
-
-	/** The password. */
-	private static String password;
-
-	/** The database. */
-	private static String database;
-
 	/**
-	 * Instantiates a new postgre SQL.
-	 *
-	 * @param host
-	 *            the host
-	 * @param port
-	 *            the port
-	 * @param user
-	 *            the user
-	 * @param password
-	 *            the password
-	 * @param database
-	 *            the database
-	 */
-	public PostgreSQL(String host, String port, String user, String password, String database) {
-		this.host = host;
-		this.port = port;
-		this.user = user;
-		this.password = password;
-		this.database = database;
-	}
-
-	/**
-	 * Connect to postgresql
+	 * Connect to mysql
 	 */
 	public static void connect() {
 		try {
-			Class.forName("org.postgresql.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
+
+			String url = "jdbc:mysql://" + Settings.HOST + ":" + Settings.PORT + "/" + Settings.DATABASE
+					+ "?useUnicode=true&serverTimezone=UTC&autoReconnect=true";
 
 			System.out.println("Connecting to database...");
-			connection = DriverManager.getConnection("jdbc:postgresql://" + host + ':' + port + "/" + database, user,
-					password);
+			connection = DriverManager.getConnection(url, Settings.USER, Settings.PASSWORD);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Can't connect to database. Please check the config file or connection.");
@@ -90,11 +57,12 @@ public class PostgreSQL {
 			if (connection.isClosed()) {
 				connect();
 			}
-			PreparedStatement ps = connection.prepareStatement(
-					"INSERT INTO `xp` (userid,totalxp,level) VALUES(?,?,?) ON DUPLICATE KEY UPDATE userid=?");
-			ps.setString(1, data.getUserId());
-			ps.setLong(2, data.getTotalXp());
-			ps.setLong(2, data.getLevel());
+			PreparedStatement ps = connection
+					.prepareStatement("REPLACE INTO `xp` (id,userid,totalxp,level) VALUES(?,?,?,?)");
+			ps.setInt(1, data.getId());
+			ps.setString(2, data.getUserId());
+			ps.setLong(3, data.getTotalXp());
+			ps.setLong(4, data.getLevel());
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -110,14 +78,13 @@ public class PostgreSQL {
 			PreparedStatement ps = connection.prepareStatement("SELECT * FROM `xp` WHERE `userid` = ?");
 			ps.setString(1, userId);
 			ResultSet rs = ps.executeQuery();
-			if (rs != null) {
-				rs.next();
-				data.setId(rs.getInt(0));
-				data.setUserId(rs.getString(1));
-				data.setTotalXp(rs.getLong(2));
-				data.setLevel(rs.getInt(4));
+			if (rs.next()) {
+				data.setId(rs.getInt(1));
+				data.setUserId(rs.getString(2));
+				data.setDBTotalXp(rs.getLong(3));
+				data.setDBLevel(rs.getInt(4));
+				return data;
 			}
-			return data;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
