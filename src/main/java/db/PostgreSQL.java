@@ -107,11 +107,10 @@ public class PostgreSQL {
 			if (connection.isClosed()) {
 				connect();
 			}
-			PreparedStatement ps = connection.prepareStatement(
-					"SELECT * FROM `xp` WHERE `userid` = ?");
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM `xp` WHERE `userid` = ?");
 			ps.setString(1, userId);
 			ResultSet rs = ps.executeQuery();
-			if(rs != null) {
+			if (rs != null) {
 				rs.next();
 				data.setId(rs.getInt(0));
 				data.setUserId(rs.getString(1));
@@ -130,13 +129,8 @@ public class PostgreSQL {
 			if (connection.isClosed()) {
 				connect();
 			}
-			PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS 'xp'(\r\n" + 
-					"    `id` INT(11) NOT NULL AUTO_INCREMENT,\r\n" + 
-					"    `userid` VARCHAR(50) NOT NULL,\r\n" + 
-					"    `totalxp` BIGINT(12) NOT NULL,\r\n" + 
-					"    `level` INT(11) NOT NULL,\r\n" + 
-					"    PRIMARY KEY('id')\r\n" + 
-					") ENGINE = InnoDB DEFAULT CHARSET = utf8;");
+			PreparedStatement ps = connection.prepareStatement(
+					"CREATE TABLE IF NOT EXISTS `xp`( `id` INT(11) NOT NULL AUTO_INCREMENT, `userid` VARCHAR(50) NOT NULL, `totalxp` BIGINT(12) NOT NULL, `level` INT(11) NOT NULL, PRIMARY KEY(`id`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
