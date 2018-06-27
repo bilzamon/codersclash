@@ -93,6 +93,24 @@ public class Mysql {
 		return null;
 	}
 
+	public static String getRankUserId() {
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+			PreparedStatement ps = connection
+					.prepareStatement("SELECT `userid` FROM xp WHERE `totalxp` = (SELECT MAX(totalXp) FROM xp)");
+			
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public static void insertReport(String userId, String reason) {
 		try {
 			if (connection.isClosed()) {
