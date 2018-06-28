@@ -50,6 +50,7 @@ public class Main {
 		commandManager.setupCommandHandlers(new Xp());
 		commandManager.setupCommandHandlers(new Report());
 		commandManager.setupCommandHandlers(new mute());
+		commandManager.setupCommandHandlers(new unmute());
 	}
 
 	/**
