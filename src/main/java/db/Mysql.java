@@ -60,11 +60,12 @@ public class Mysql {
 				connect();
 			}
 			PreparedStatement ps = connection
-					.prepareStatement("REPLACE INTO `xp` (id,userid,totalxp,level) VALUES(?,?,?,?)");
+					.prepareStatement("REPLACE INTO `xp` (id,userid,totalxp,level,notify) VALUES(?,?,?,?,?)");
 			ps.setInt(1, data.getId());
 			ps.setString(2, data.getUserId());
 			ps.setLong(3, data.getTotalXp());
 			ps.setLong(4, data.getLevel());
+			ps.setBoolean(5, data.getLvlupNotify());
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -85,6 +86,7 @@ public class Mysql {
 				data.setUserId(rs.getString(2));
 				data.setDBTotalXp(rs.getLong(3));
 				data.setDBLevel(rs.getInt(4));
+				data.setLvlupNotify(rs.getBoolean(5));
 				return data;
 			}
 		} catch (SQLException e) {
@@ -162,7 +164,7 @@ public class Mysql {
 				connect();
 			}
 			PreparedStatement ps = connection.prepareStatement(
-					"CREATE TABLE IF NOT EXISTS xp( `id` INT(11) NOT NULL AUTO_INCREMENT, `userid` VARCHAR(50) NOT NULL, `totalxp` BIGINT(12) NOT NULL, `level` INT(11) NOT NULL, PRIMARY KEY(`id`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
+					"CREATE TABLE IF NOT EXISTS xp( `id` INT(11) NOT NULL AUTO_INCREMENT, `userid` VARCHAR(50) NOT NULL, `totalxp` BIGINT(12) NOT NULL, `level` INT(11) NOT NULL, `notify` BOOLEAN NOT NULL, PRIMARY KEY(`id`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

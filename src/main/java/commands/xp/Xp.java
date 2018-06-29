@@ -1,4 +1,4 @@
-package commands;
+package commands.xp;
 
 import java.awt.Color;
 

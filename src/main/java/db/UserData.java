@@ -21,6 +21,9 @@ public class UserData {
 	/** The level. */
 	private int level = 0;
 
+	/** The lvlupNotify */
+	private boolean lvlupNotify = true;
+
 	/**
 	 * Gets the id.
 	 *
@@ -57,6 +60,15 @@ public class UserData {
 		return level;
 	}
 
+	/**
+	 * Gets the lvlupNotify.
+	 *
+	 * @return the lvlupNotify
+	 */
+	public boolean getLvlupNotify() {
+		return lvlupNotify;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -81,15 +93,21 @@ public class UserData {
 
 	public void setLevel(int level) {
 		if (level > this.level) {
-			try {
-				Main.getJda().getUserById(this.userId).openPrivateChannel().queue((channel) -> {
-					channel.sendMessage("Congratulations, you are now level " + level + "! :tada: ").queue();
-				});
-			} catch (Exception e) {
-				e.printStackTrace();
+			if (this.lvlupNotify) {
+				try {
+					Main.getJda().getUserById(this.userId).openPrivateChannel().queue((channel) -> {
+						channel.sendMessage("Congratulations, you are now level " + level + "! :tada: ").queue();
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			this.level = level;
 		}
+	}
+
+	public void setLvlupNotify(boolean status) {
+		this.lvlupNotify = status;
 	}
 
 	public void save(UserData data) {

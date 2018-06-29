@@ -19,7 +19,7 @@ public class CommandManager extends ListenerAdapter {
 	public void onMessageReceived(MessageReceivedEvent event) {
 		ParsedCommandString parsedMessage = parse(event.getMessage().getContentRaw());
 
-		if (!event.getAuthor().isBot() && !event.getAuthor().isFake() && parsedMessage != null) {
+		if (!event.getAuthor().isBot() && !event.getAuthor().isFake() && parsedMessage != null && event.getChannelType().isGuild()) {
 			CommandHandler commandHandler = commandAssociations.get(parsedMessage.getCommand());
 
 			if (commandHandler != null) {
