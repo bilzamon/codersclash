@@ -32,5 +32,6 @@ public class BuildManager {
 		builder.addEventListener(new VotingListener());
 		builder.addEventListener(new channelcreatelistener());
 		builder.addEventListener(new vcprivatetextchannel());
+		builder.addEventListener(new Autochannel());
 	}
 }
