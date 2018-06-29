@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import util.Settings;
 
 /**
- * The Class PostgreSQL.
+ * The Class Mysql.
  */
 public class Mysql {
 	/** The connection. */
@@ -36,6 +36,7 @@ public class Mysql {
 		generateXpTable();
 		generateReportTable();
 		generateReportCountTable();
+		generatePollTable();
 	}
 
 	/**
@@ -102,7 +103,7 @@ public class Mysql {
 			}
 			PreparedStatement ps = connection
 					.prepareStatement("SELECT `userid` FROM xp WHERE `totalxp` = (SELECT MAX(totalXp) FROM xp)");
-			
+
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getString(1);
@@ -158,13 +159,72 @@ public class Mysql {
 		return 0;
 	}
 
+	public static void savePollData(PollData data) {
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+			PreparedStatement ps = connection.prepareStatement(
+					"REPLACE INTO `poll` (pollid,userid,messageid,users,open,option1,option2,option3,option4,option5,"
+							+ "option6,option7,option8,option9) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			ps.setInt(1, data.getPollId());
+			ps.setString(2, data.getUserId());
+			ps.setString(3, data.getMessageId());
+			ps.setString(4, data.getUsers());
+			ps.setBoolean(5, data.isOpen());
+			for (int i = 6; i <= 14; i++) {
+				if (data.getOptions() != null) {
+					ps.setInt(i, data.getOptions()[i-6]);
+				} else {
+					ps.setInt(i, 0);
+				}
+			}
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static PollData getPollData(String messageId) {
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+			PollData data = new PollData();
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM `poll` WHERE `messageid` = ?");
+			ps.setString(1, messageId);
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				data.setPollId(rs.getInt(1));
+				data.setUserId(rs.getString(2));
+				data.setMessageId(rs.getString(3));
+				data.setUsers(rs.getString(4));
+				data.setOpen(rs.getBoolean(5));
+
+				int[] options = new int[9];
+				for (int i = 0; i <= 8; i++) {
+					options[i] = rs.getInt(i + 6);
+				}
+				data.setOptions(options);
+			}
+
+			return data;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public static void generateXpTable() {
 		try {
 			if (connection.isClosed()) {
 				connect();
 			}
 			PreparedStatement ps = connection.prepareStatement(
-					"CREATE TABLE IF NOT EXISTS xp( `id` INT(11) NOT NULL AUTO_INCREMENT, `userid` VARCHAR(50) NOT NULL, `totalxp` BIGINT(12) NOT NULL, `level` INT(11) NOT NULL, `notify` BOOLEAN NOT NULL, PRIMARY KEY(`id`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
+					"CREATE TABLE IF NOT EXISTS xp( `id` INT(11) NOT NULL AUTO_INCREMENT, `userid` VARCHAR(50) NOT NULL, "
+							+ "`totalxp` BIGINT(12) NOT NULL, `level` INT(11) NOT NULL, `notify` BOOLEAN NOT NULL, "
+							+ "PRIMARY KEY(`id`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -177,7 +237,8 @@ public class Mysql {
 				connect();
 			}
 			PreparedStatement ps = connection.prepareStatement(
-					"CREATE TABLE IF NOT EXISTS report( `id` INT(11) NOT NULL AUTO_INCREMENT, `userid` VARCHAR(50) NOT NULL, `reason` VARCHAR(50) NOT NULL, PRIMARY KEY(`id`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
+					"CREATE TABLE IF NOT EXISTS report( `id` INT(11) NOT NULL AUTO_INCREMENT, `userid` VARCHAR(50) NOT NULL, "
+							+ "`reason` VARCHAR(50) NOT NULL, PRIMARY KEY(`id`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -190,7 +251,26 @@ public class Mysql {
 				connect();
 			}
 			PreparedStatement ps = connection.prepareStatement(
-					"CREATE TABLE IF NOT EXISTS reportcount( `userid` VARCHAR(50) NOT NULL, `count` INT(11) NOT NULL, PRIMARY KEY(`userid`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
+					"CREATE TABLE IF NOT EXISTS reportcount ( `userid` VARCHAR(50) NOT NULL, `count` INT(11) NOT NULL, "
+							+ "PRIMARY KEY(`userid`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void generatePollTable() {
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+			PreparedStatement ps = connection.prepareStatement(
+					"CREATE TABLE IF NOT EXISTS poll ( `pollid` INT(11) NOT NULL AUTO_INCREMENT, `userid` VARCHAR(50) NOT NULL, "
+							+ "`messageid` VARCHAR(50) NOT NULL, `users` TEXT(1000),`open` BOOLEAN NOT NULL,"
+							+ "`option1` VARCHAR(50) NOT NULL,`option2` VARCHAR(50) NOT NULL,`option3` VARCHAR(50) NOT NULL,"
+							+ "`option4` VARCHAR(50) NOT NULL,`option5` VARCHAR(50) NOT NULL,`option6` VARCHAR(50) NOT NULL,"
+							+ "`option7` VARCHAR(50) NOT NULL,`option8` VARCHAR(50) NOT NULL,`option9` VARCHAR(50) NOT NULL,"
+							+ "PRIMARY KEY(`pollid`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

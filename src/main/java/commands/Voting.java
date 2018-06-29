@@ -1,14 +1,24 @@
 package commands;
 
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import command.CommandHandler;
 import command.CommandManager.ParsedCommandString;
+import db.PollData;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class Voting extends CommandHandler {
+	SimpleDateFormat formatter = new SimpleDateFormat("DD.MM.uuuu HH:mm");
 
 	public Voting() {
 		super("vote");
@@ -21,14 +31,16 @@ public class Voting extends CommandHandler {
 			return;
 		}
 
-		// comand: create <title> ; <option1>; <option2>;
+		// comand: create <title>; <time>; <option1>; <option2>;
 		if (parsedCommand.getArgs()[0].equalsIgnoreCase("create")) {
+			PollData pData = new PollData();
+			pData.setUserId(event.getAuthor().getId());
 
 			String text = String.join(" ", Arrays.asList(parsedCommand.getArgs()))
 					.replace(parsedCommand.getArgs()[0] + " ", "");
-
+System.out.println("text:" + text);
 			String[] input = text.split(";");
-			if (input.length < 3) {
+			if (input.length < 4) {
 				event.getTextChannel().sendMessage("Invalid input");
 				return;
 			}
@@ -36,35 +48,37 @@ public class Voting extends CommandHandler {
 			EmbedBuilder eb = new EmbedBuilder().setColor(Color.green)
 					.setAuthor(event.getAuthor().getName(), null, event.getAuthor().getAvatarUrl())
 					.setDescription(input[0]);
+
 			String options = "";
-			for (int i = 1; i < input.length; i++) {
-				switch (i) {
+			// TODO own class for that stuff
+			for (int i = 2; i < input.length; i++) {
+				switch (i - 1) {
 				case 1:
-					options += ":one:";
+					options += " :one: ";
 					break;
 				case 2:
-					options += ":two:";
+					options += ":two: ";
 					break;
 				case 3:
-					options += ":three:";
+					options += ":three: ";
 					break;
 				case 4:
-					options += ":four:";
+					options += ":four: ";
 					break;
 				case 5:
-					options += ":five:";
+					options += ":five: ";
 					break;
 				case 6:
-					options += ":six:";
+					options += ":six: ";
 					break;
 				case 7:
-					options += ":seven:";
+					options += ":seven: ";
 					break;
 				case 8:
-					options += ":eight:";
+					options += ":eight: ";
 					break;
 				case 9:
-					options += ":nine:";
+					options += ":nine: ";
 					break;
 				default:
 					break;
@@ -75,46 +89,132 @@ public class Voting extends CommandHandler {
 			eb.addField("Options", options, true);
 
 			event.getTextChannel().sendMessage(eb.build()).queue((message) -> {
+				pData.setMessageId(message.getId());
 
-				for (int i = 1; i < input.length; i++) {
-					switch (i) {
+				// TODO own class for that stuff
+				for (int i = 2; i < input.length; i++) {
+					switch (i - 1) {
 					case 1:
-						message.addReaction("1⃣ ").queue();
+						message.addReaction("1⃣").queue();
 						break;
 					case 2:
-						message.addReaction("2⃣ ").queue();
+						message.addReaction("2⃣").queue();
 						break;
 					case 3:
-						message.addReaction("3⃣ ").queue();
+						message.addReaction("3⃣").queue();
 						break;
 					case 4:
-						message.addReaction("4⃣ ").queue();
+						message.addReaction("4⃣").queue();
 						break;
 					case 5:
-						message.addReaction("5⃣ ").queue();
+						message.addReaction("5⃣").queue();
 						break;
 					case 6:
-						message.addReaction("6⃣ ").queue();
+						message.addReaction("6⃣").queue();
 						break;
 					case 7:
-						message.addReaction("7⃣ ").queue();
+						message.addReaction("7⃣").queue();
 						break;
 					case 8:
-						message.addReaction("8⃣ ").queue();
+						message.addReaction("8⃣").queue();
 						break;
 					case 9:
-						message.addReaction("9⃣ ").queue();
+						message.addReaction("9⃣").queue();
 						break;
 					default:
 						break;
 					}
 				}
+				pData.saveToDb(pData);
+				LocalDateTime time = LocalDateTime.parse(input[1], DateTimeFormatter.ofPattern("dd.MM.uuuu HH:mm"));
+				timerStart(time, message.getId(), event);
 			});
 
-			event.getMessage().delete().queue();
+		} else if (parsedCommand.getArgs()[0].equalsIgnoreCase("close")) {
+			String text = String.join(" ", Arrays.asList(parsedCommand.getArgs()))
+					.replace(parsedCommand.getArgs()[0] + " ", "");
+
+			PollData pData = new PollData().getDbData(text);
+			if (pData.isOpen()) {
+				pData.setOpen(false);
+				pData.saveToDb(pData);
+
+				event.getTextChannel().getMessageById(text).queue((message) -> {
+					MessageEmbed oldEm = message.getEmbeds().get(0);
+					String[] values = oldEm.getFields().get(0).getValue().split("\n");
+					StringBuilder strB = new StringBuilder();
+					for (int i = 0; i < values.length; i++) {
+						strB.append(" " + values[i] + "`" + pData.getOptions()[i] + "`" + "\n");
+					}
+					message.editMessage(new EmbedBuilder()
+							.setAuthor(oldEm.getAuthor().getName(), null, oldEm.getAuthor().getIconUrl())
+							.setDescription(oldEm.getDescription())
+							.addField(oldEm.getFields().get(0).getName(), strB.toString(), true).build()).queue();
+				});
+
+				event.getTextChannel()
+						.sendMessage(new EmbedBuilder().setColor(Color.blue).setDescription("Poll closed!").build())
+						.queue();
+			} else {
+				event.getTextChannel()
+						.sendMessage(
+								new EmbedBuilder().setColor(Color.blue).setDescription("Poll already closed!").build())
+						.queue();
+			}
+		} else if (parsedCommand.getArgs()[0].equalsIgnoreCase("open")) {
+			String text = String.join(" ", Arrays.asList(parsedCommand.getArgs()))
+					.replace(parsedCommand.getArgs()[0] + " ", "");
+
+			PollData pData = new PollData().getDbData(text);
+			if (!pData.isOpen()) {
+				pData.setOpen(true);
+				pData.saveToDb(pData);
+				event.getTextChannel()
+						.sendMessage(new EmbedBuilder().setColor(Color.blue).setDescription("Poll opened!").build())
+						.queue();
+			} else {
+				event.getTextChannel()
+						.sendMessage(
+								new EmbedBuilder().setColor(Color.blue).setDescription("Poll already opened!").build())
+						.queue();
+			}
 		} else {
 			return;
 		}
+		event.getMessage().delete().queue();
 	}
 
+	private void timerStart(LocalDateTime time, String id, MessageReceivedEvent event) {
+		//TODO after restart set timer again
+		ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+		Runnable task = new Runnable() {
+			public void run() {
+
+				PollData timerPollData = new PollData().getDbData(id);
+				timerPollData.setOpen(false);
+				timerPollData.saveToDb(timerPollData);
+
+				event.getTextChannel().getMessageById(id).queue((message) -> {
+					MessageEmbed oldEm = message.getEmbeds().get(0);
+					String[] values = oldEm.getFields().get(0).getValue().split("\n");
+					StringBuilder strB = new StringBuilder();
+					for (int i = 0; i < values.length; i++) {
+						strB.append(" " + values[i] + "`" + timerPollData.getOptions()[i] + "`" + "\n");
+					}
+					message.editMessage(new EmbedBuilder()
+							.setAuthor(oldEm.getAuthor().getName(), null, oldEm.getAuthor().getIconUrl())
+							.setDescription(oldEm.getDescription())
+							.addField(oldEm.getFields().get(0).getName(), strB.toString(), true).build()).queue();
+				});
+
+				event.getTextChannel()
+						.sendMessage(new EmbedBuilder().setColor(Color.blue).setDescription("Poll closed!").build())
+						.queue();
+			}
+		};
+		scheduler.schedule(task,
+				time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+						- LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+				TimeUnit.MILLISECONDS);
+	}
 }
