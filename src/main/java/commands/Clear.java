@@ -17,8 +17,6 @@ public class Clear extends CommandHandler {
 		super("clear");
 	}
 
-	EmbedBuilder error = new EmbedBuilder().setColor(Color.RED);
-
 	private int getInt(String string) {
 		try {
 			return Integer.parseInt(string);

@@ -9,10 +9,10 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.awt.*;
 
-public class mute extends CommandHandler {
+public class Mute extends CommandHandler {
 
-    public mute() {
-        super("mute");
+    public Mute() {
+        super("Mute");
     }
 
     @Override

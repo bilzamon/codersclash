@@ -28,11 +28,11 @@ public class BuildManager {
 	private void addEventListeners() {
 		builder.addEventListener(new CommandManager());
 		builder.addEventListener(new ReadyListener());
-		builder.addEventListener(new XpListener());
+		builder.addEventListener(new XPListener());
 		builder.addEventListener(new VotingListener());
-		builder.addEventListener(new channelcreatelistener());
-		builder.addEventListener(new vcprivatetextchannel());
+		builder.addEventListener(new ChannelCreateListener());
+		builder.addEventListener(new VCPrivateTextChannel());
 		builder.addEventListener(new Autochannel());
-		builder.addEventListener(new privatevoice());
+		builder.addEventListener(new PrivateVoice());
 	}
 }

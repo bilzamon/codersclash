@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
-public class privatevoice extends ListenerAdapter {
+public class PrivateVoice extends ListenerAdapter {
     public void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
         if (event.getChannelJoined().getName().contains("\uD83C\uDDF5")) {
             event.getGuild().getController().createVoiceChannel("[PRIVAT] " + event.getMember().getUser().getName()).complete().createPermissionOverride(event.getGuild().getPublicRole()).setDeny(Permission.VOICE_CONNECT).queue();

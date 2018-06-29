@@ -4,9 +4,9 @@ import javax.security.auth.login.LoginException;
 
 import command.CommandManager;
 import commands.*;
-import commands.xp.Xp;
-import commands.xp.XpNotify;
-import db.Mysql;
+import commands.xp.XP;
+import commands.xp.XPNotify;
+import db.MySQL;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -20,7 +20,7 @@ public class Main {
 	/** The jda. */
 	private static JDA jda;
 
-	private static Mysql sql;
+	private static MySQL sql;
 
 	/**
 	 * Instantiates a new main.
@@ -28,7 +28,7 @@ public class Main {
 	public Main() {
 		Settings.loadSettings();
 
-		Mysql.connect();
+		MySQL.connect();
 
 		initJDA();
 
@@ -48,13 +48,14 @@ public class Main {
 		commandManager.setupCommandHandlers(new Ping());
 		commandManager.setupCommandHandlers(new Say());
 		commandManager.setupCommandHandlers(new UserInfo());
-		commandManager.setupCommandHandlers(new Xp());
+		commandManager.setupCommandHandlers(new XP());
 		commandManager.setupCommandHandlers(new Report());
 		commandManager.setupCommandHandlers(new Voting());
-		commandManager.setupCommandHandlers(new mute());
-		commandManager.setupCommandHandlers(new unmute());
-		commandManager.setupCommandHandlers(new XpNotify());
-		commandManager.setupCommandHandlers(new addusertoprivatevoicechannel());
+		commandManager.setupCommandHandlers(new Mute());
+		commandManager.setupCommandHandlers(new UnMute());
+		commandManager.setupCommandHandlers(new XPNotify());
+		commandManager.setupCommandHandlers(new AddUserToPrivateVoiceChannel());
+		commandManager.setupCommandHandlers(new VierGewinnt());
 	}
 
 	/**
@@ -84,7 +85,7 @@ public class Main {
 		return jda;
 	}
 
-	public static Mysql getSql() {
+	public static MySQL getSql() {
 		return sql;
 	}
 

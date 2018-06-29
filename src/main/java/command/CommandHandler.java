@@ -1,11 +1,16 @@
 package command;
 
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+
+import java.awt.*;
 
 /**
  * The Class CommandHandler.
  */
 public abstract class CommandHandler {
+
+	public static EmbedBuilder error = new EmbedBuilder().setColor(Color.RED);
 	
 	/** The invoke string. */
 	private String invokeString;

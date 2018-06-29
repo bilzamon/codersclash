@@ -14,9 +14,9 @@ import util.Statics;
  * <code>addXpListener<code> method. When the xp event occurs, that object's
  * appropriate method is invoked.
  *
- * @see XpEvent
+ *
  */
-public class XpListener extends ListenerAdapter {
+public class XPListener extends ListenerAdapter {
 
 	/**
 	 * On guild message received.

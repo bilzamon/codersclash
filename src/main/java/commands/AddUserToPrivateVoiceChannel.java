@@ -8,10 +8,10 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.awt.*;
 
-public class addusertoprivatevoicechannel extends CommandHandler {
+public class AddUserToPrivateVoiceChannel extends CommandHandler {
 
-    public addusertoprivatevoicechannel() {
-        super("addusertoprivatevoicechannel");
+    public AddUserToPrivateVoiceChannel() {
+        super("AddUserToPrivateVoiceChannel");
     }
 
     @Override

@@ -9,9 +9,9 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import util.Level;
 
-public class Xp extends CommandHandler {
+public class XP extends CommandHandler {
 
-	public Xp() {
+	public XP() {
 		super("xp");
 	}
 

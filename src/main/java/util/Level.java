@@ -42,7 +42,7 @@ public class Level {
 	}
 
 	/**
-	 * Xp to level up.
+	 * XP to level up.
 	 *
 	 * @param level the level
 	 * @return the int

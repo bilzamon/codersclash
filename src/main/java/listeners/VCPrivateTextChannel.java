@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
-public class vcprivatetextchannel extends ListenerAdapter {
+public class VCPrivateTextChannel extends ListenerAdapter {
     public void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
         if (event.getChannelJoined().getMembers().size()==1){
             event.getGuild().getController().createTextChannel(event.getChannelJoined().getName().toLowerCase()+"-vc-chat").complete().createPermissionOverride(event.getGuild().getSelfMember()).setAllow(Permission.ALL_PERMISSIONS).complete();

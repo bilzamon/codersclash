@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.events.channel.text.TextChannelCreateEvent;
 import net.dv8tion.jda.core.events.channel.voice.VoiceChannelCreateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
-public class channelcreatelistener extends ListenerAdapter {
+public class ChannelCreateListener extends ListenerAdapter {
     public void onTextChannelCreate(TextChannelCreateEvent event) {
         if (event.getGuild().getRolesByName("blue-muted",false).size()== 0){
             return;
