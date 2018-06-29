@@ -58,9 +58,9 @@ public class UserInfo extends CommandHandler {
 
 		EmbedBuilder em = new EmbedBuilder().setColor(Color.green);
 		if (memb.getUser().isBot()) {
-			em.setDescription("**Bot Informationen fÃ¼r " + memb.getUser().getName() + ":**");
+			em.setDescription("**Bot Informationen für " + memb.getUser().getName() + ":**");
 		} else
-			em.setDescription("**User Informationen fÃ¼r " + memb.getUser().getName() + ":**");
+			em.setDescription("**User Informationen für " + memb.getUser().getName() + ":**");
 
 		em.addField("Name / Nickname", NAME, false);
 		em.addField("User Tag", TAG, false);

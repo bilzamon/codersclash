@@ -9,6 +9,9 @@ atlassian-ide-plugin.xml
 .metadata/
 target
 
+###Intellij###
+.idea/
+
 ### Java ###
 *.jar
 *.properties

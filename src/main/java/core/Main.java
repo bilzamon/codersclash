@@ -3,15 +3,7 @@ package core;
 import javax.security.auth.login.LoginException;
 
 import command.CommandManager;
-import commands.Clear;
-import commands.GuildInfo;
-import commands.Ping;
-import commands.Report;
-import commands.Say;
-import commands.TestCommand;
-import commands.UserInfo;
-import commands.Voting;
-import commands.Xp;
+import commands.*;
 import db.Mysql;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -58,6 +50,8 @@ public class Main {
 		commandManager.setupCommandHandlers(new Xp());
 		commandManager.setupCommandHandlers(new Report());
 		commandManager.setupCommandHandlers(new Voting());
+		commandManager.setupCommandHandlers(new mute());
+		commandManager.setupCommandHandlers(new unmute());
 	}
 
 	/**
