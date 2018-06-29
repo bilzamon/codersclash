@@ -10,6 +10,7 @@ import commands.Report;
 import commands.Say;
 import commands.TestCommand;
 import commands.UserInfo;
+import commands.Voting;
 import commands.Xp;
 import db.Mysql;
 import net.dv8tion.jda.core.AccountType;
@@ -56,6 +57,7 @@ public class Main {
 		commandManager.setupCommandHandlers(new UserInfo());
 		commandManager.setupCommandHandlers(new Xp());
 		commandManager.setupCommandHandlers(new Report());
+		commandManager.setupCommandHandlers(new Voting());
 	}
 
 	/**

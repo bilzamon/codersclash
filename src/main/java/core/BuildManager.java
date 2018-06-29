@@ -2,6 +2,7 @@ package core;
 
 import command.CommandManager;
 import listeners.ReadyListener;
+import listeners.VotingListener;
 import listeners.XpListener;
 import net.dv8tion.jda.core.JDABuilder;
 
@@ -30,5 +31,6 @@ public class BuildManager {
 		builder.addEventListener(new CommandManager());
 		builder.addEventListener(new ReadyListener());
 		builder.addEventListener(new XpListener());
+		builder.addEventListener(new VotingListener());
 	}
 }
