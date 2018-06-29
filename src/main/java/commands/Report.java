@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import command.CommandHandler;
 import command.CommandManager.ParsedCommandString;
-import db.Mysql;
+import db.MySQL;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -29,9 +29,9 @@ public class Report extends CommandHandler {
 
 		String reason = String.join(" ", parsedCommand.getArgs()).replace(parsedCommand.getArgs()[0] + " ", "");
 
-		int reportCount = Mysql.loadReportCount(reported.getId());
-		Mysql.insertReportCount(reported.getId(), reportCount + 1);
-		Mysql.insertReport(reported.getId(), reason);
+		int reportCount = MySQL.loadReportCount(reported.getId());
+		MySQL.insertReportCount(reported.getId(), reportCount + 1);
+		MySQL.insertReport(reported.getId(), reason);
 
 		event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.orange).setTitle("Report")
 				.setDescription(

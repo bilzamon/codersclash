@@ -137,7 +137,7 @@ public class PollData {
 	 *            the data
 	 */
 	public void saveToDb(PollData data) {
-		Mysql.savePollData(data);
+		MySQL.savePollData(data);
 	}
 
 	/**
@@ -148,6 +148,6 @@ public class PollData {
 	 * @return
 	 */
 	public PollData getDbData(String messageId) {
-		return Mysql.getPollData(messageId);
+		return MySQL.getPollData(messageId);
 	}
 }

@@ -111,11 +111,11 @@ public class UserData {
 	}
 
 	public void save(UserData data) {
-		Mysql.saveUserData(data);
+		MySQL.saveUserData(data);
 	}
 
 	public static UserData fromId(String id) {
-		return Mysql.loadFromId(id);
+		return MySQL.loadFromId(id);
 	}
 
 }
