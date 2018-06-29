@@ -1,10 +1,7 @@
 package core;
 
 import command.CommandManager;
-import listeners.ReadyListener;
-import listeners.VotingListener;
-import listeners.XpListener;
-import listeners.channelcreatelistener;
+import listeners.*;
 import net.dv8tion.jda.core.JDABuilder;
 
 /**
@@ -34,5 +31,6 @@ public class BuildManager {
 		builder.addEventListener(new XpListener());
 		builder.addEventListener(new VotingListener());
 		builder.addEventListener(new channelcreatelistener());
+		builder.addEventListener(new vcprivatetextchannel());
 	}
 }
