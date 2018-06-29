@@ -13,6 +13,5 @@ public class VotingListener extends ListenerAdapter {
 		
 		event.getUser();
 		
-		event.getM
 	}
 }
