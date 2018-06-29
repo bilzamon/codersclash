@@ -8,9 +8,9 @@ import command.CommandManager.ParsedCommandString;
 import db.UserData;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-public class XpNotify extends CommandHandler {
+public class XPNotify extends CommandHandler {
 
-	public XpNotify() {
+	public XPNotify() {
 		super("xpnotify");
 		// TODO Auto-generated constructor stub
 	}

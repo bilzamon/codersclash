@@ -11,7 +11,7 @@ import util.Settings;
 /**
  * The Class Mysql.
  */
-public class Mysql {
+public class MySQL {
 	/** The connection. */
 	private static Connection connection;
 

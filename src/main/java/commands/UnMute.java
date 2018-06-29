@@ -9,9 +9,9 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.awt.*;
 
-public class unmute extends CommandHandler {
-    public unmute(){
-        super("unmute");
+public class UnMute extends CommandHandler {
+    public UnMute(){
+        super("UnMute");
     }
     @Override
     public void execute(CommandManager.ParsedCommandString parsedCommand, MessageReceivedEvent event) {
