@@ -33,5 +33,6 @@ public class BuildManager {
 		builder.addEventListener(new channelcreatelistener());
 		builder.addEventListener(new vcprivatetextchannel());
 		builder.addEventListener(new Autochannel());
+		builder.addEventListener(new privatevoice());
 	}
 }

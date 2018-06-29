@@ -3,15 +3,7 @@ package core;
 import javax.security.auth.login.LoginException;
 
 import command.CommandManager;
-import commands.Clear;
-import commands.GuildInfo;
-import commands.Ping;
-import commands.Report;
-import commands.Say;
-import commands.UserInfo;
-import commands.Voting;
-import commands.mute;
-import commands.unmute;
+import commands.*;
 import commands.xp.Xp;
 import commands.xp.XpNotify;
 import db.Mysql;
@@ -62,6 +54,7 @@ public class Main {
 		commandManager.setupCommandHandlers(new mute());
 		commandManager.setupCommandHandlers(new unmute());
 		commandManager.setupCommandHandlers(new XpNotify());
+		commandManager.setupCommandHandlers(new addusertoprivatevoicechannel());
 	}
 
 	/**
