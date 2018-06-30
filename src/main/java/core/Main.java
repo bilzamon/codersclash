@@ -61,7 +61,6 @@ public class Main {
 		commandManager.setupCommandHandlers(new XPNotify());
 		commandManager.setupCommandHandlers(new AddUserToPrivateVoiceChannel());
 		commandManager.setupCommandHandlers(new VierGewinnt());
-		commandManager.setupCommandHandlers(new Help());
 	}
 
 	/**

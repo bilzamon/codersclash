@@ -12,7 +12,7 @@ import java.util.List;
 
 public class XPrank extends CommandHandler {
     public XPrank() {
-        super("xprank");
+        super("xprank","xprank","xprank");
     }
 
     @Override
