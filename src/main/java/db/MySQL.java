@@ -1,11 +1,18 @@
 package db;
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
+import commands.Voting;
+import core.Main;
+import net.dv8tion.jda.core.EmbedBuilder;
 import util.Settings;
 
 /**
@@ -37,6 +44,7 @@ public class MySQL {
 		generateReportTable();
 		generateReportCountTable();
 		generatePollTable();
+
 	}
 
 	/**
@@ -166,7 +174,7 @@ public class MySQL {
 			}
 			PreparedStatement ps = connection.prepareStatement(
 					"REPLACE INTO `poll` (pollid,userid,messageid,users,open,option1,option2,option3,option4,option5,"
-							+ "option6,option7,option8,option9) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+							+ "option6,option7,option8,option9,time,channelId) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			ps.setInt(1, data.getPollId());
 			ps.setString(2, data.getUserId());
 			ps.setString(3, data.getMessageId());
@@ -174,11 +182,13 @@ public class MySQL {
 			ps.setBoolean(5, data.isOpen());
 			for (int i = 6; i <= 14; i++) {
 				if (data.getOptions() != null) {
-					ps.setInt(i, data.getOptions()[i-6]);
+					ps.setInt(i, data.getOptions()[i - 6]);
 				} else {
 					ps.setInt(i, 0);
 				}
 			}
+			ps.setTimestamp(15, Timestamp.valueOf(data.getTime()));
+			ps.setString(16, data.getChannelId());
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -207,6 +217,8 @@ public class MySQL {
 					options[i] = rs.getInt(i + 6);
 				}
 				data.setOptions(options);
+				data.setTime(rs.getTimestamp(15).toLocalDateTime());
+				data.setChannelId(rs.getString(16));
 			}
 
 			return data;
@@ -226,6 +238,54 @@ public class MySQL {
 							+ "`totalxp` BIGINT(12) NOT NULL, `level` INT(11) NOT NULL, `notify` BOOLEAN NOT NULL, "
 							+ "PRIMARY KEY(`id`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
 			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void loadPollTimer() {
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM `poll`");
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				PollData data = new PollData();
+				data.setPollId(rs.getInt(1));
+				data.setUserId(rs.getString(2));
+				data.setMessageId(rs.getString(3));
+				data.setUsers(rs.getString(4));
+				data.setOpen(rs.getBoolean(5));
+				int[] options = new int[9];
+				for (int i = 0; i <= 8; i++) {
+					options[i] = rs.getInt(i + 6);
+				}
+				data.setOptions(options);
+				data.setTime(rs.getTimestamp(15).toLocalDateTime());
+				data.setChannelId(rs.getString(16));
+
+				if (data.getTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+						- LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() > 0
+						&& data.isOpen()) {
+					if (Main.getJda().getTextChannelById(data.getChannelId()) != null) {
+						Voting.timerStart(data.getTime(), data.getMessageId(),
+								Main.getJda().getTextChannelById(data.getChannelId()));
+					}
+				} else if (data.isOpen()) {
+					data.setOpen(false);
+					if (Main.getJda().getTextChannelById(data.getChannelId()) != null) {
+						Main.getJda().getTextChannelById(data.getChannelId())
+								.sendMessage(
+										new EmbedBuilder().setColor(Color.blue).setDescription("Poll closed!").build())
+								.queue();
+					}
+					data.saveToDb(data);
+				}
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -270,6 +330,7 @@ public class MySQL {
 							+ "`option1` VARCHAR(50) NOT NULL,`option2` VARCHAR(50) NOT NULL,`option3` VARCHAR(50) NOT NULL,"
 							+ "`option4` VARCHAR(50) NOT NULL,`option5` VARCHAR(50) NOT NULL,`option6` VARCHAR(50) NOT NULL,"
 							+ "`option7` VARCHAR(50) NOT NULL,`option8` VARCHAR(50) NOT NULL,`option9` VARCHAR(50) NOT NULL,"
+							+ "`time` TIMESTAMP NOT NULL,`channelId` VARCHAR(50) NOT NULL,"
 							+ "PRIMARY KEY(`pollid`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
 			ps.execute();
 		} catch (SQLException e) {

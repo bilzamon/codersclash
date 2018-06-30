@@ -34,6 +34,8 @@ public class Main {
 
 		CommandManager commandManager = new CommandManager();
 		initCommandHandlers(commandManager);
+		
+		MySQL.loadPollTimer();
 	}
 
 	/**

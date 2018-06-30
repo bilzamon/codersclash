@@ -15,6 +15,7 @@ import command.CommandManager.ParsedCommandString;
 import db.PollData;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class Voting extends CommandHandler {
@@ -38,7 +39,7 @@ public class Voting extends CommandHandler {
 
 			String text = String.join(" ", Arrays.asList(parsedCommand.getArgs()))
 					.replace(parsedCommand.getArgs()[0] + " ", "");
-System.out.println("text:" + text);
+
 			String[] input = text.split(";");
 			if (input.length < 4) {
 				event.getTextChannel().sendMessage("Invalid input");
@@ -90,6 +91,7 @@ System.out.println("text:" + text);
 
 			event.getTextChannel().sendMessage(eb.build()).queue((message) -> {
 				pData.setMessageId(message.getId());
+				pData.setChannelId(event.getChannel().getId());
 
 				// TODO own class for that stuff
 				for (int i = 2; i < input.length; i++) {
@@ -125,9 +127,11 @@ System.out.println("text:" + text);
 						break;
 					}
 				}
-				pData.saveToDb(pData);
+
 				LocalDateTime time = LocalDateTime.parse(input[1], DateTimeFormatter.ofPattern("dd.MM.uuuu HH:mm"));
-				timerStart(time, message.getId(), event);
+				pData.setTime(time);
+				pData.saveToDb(pData);
+				timerStart(time, message.getId(), event.getTextChannel());
 			});
 
 		} else if (parsedCommand.getArgs()[0].equalsIgnoreCase("close")) {
@@ -184,22 +188,24 @@ System.out.println("text:" + text);
 		event.getMessage().delete().queue();
 	}
 
-	private void timerStart(LocalDateTime time, String id, MessageReceivedEvent event) {
-		//TODO after restart set timer again
+	public static void timerStart(LocalDateTime time, String messageId, TextChannel channel) {
+		// TODO after restart set timer again
+		System.out.println("timerStart time" + (time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+		- LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()));
 		ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 		Runnable task = new Runnable() {
 			public void run() {
-
-				PollData timerPollData = new PollData().getDbData(id);
+				System.out.println("timer executed");
+				PollData timerPollData = new PollData().getDbData(messageId);
 				timerPollData.setOpen(false);
 				timerPollData.saveToDb(timerPollData);
 
-				event.getTextChannel().getMessageById(id).queue((message) -> {
+				channel.getMessageById(messageId).queue((message) -> {
 					MessageEmbed oldEm = message.getEmbeds().get(0);
 					String[] values = oldEm.getFields().get(0).getValue().split("\n");
 					StringBuilder strB = new StringBuilder();
 					for (int i = 0; i < values.length; i++) {
-						strB.append(" " + values[i] + "`" + timerPollData.getOptions()[i] + "`" + "\n");
+						strB.append(values[i] + "`" + timerPollData.getOptions()[i] + "`" + "\n");
 					}
 					message.editMessage(new EmbedBuilder()
 							.setAuthor(oldEm.getAuthor().getName(), null, oldEm.getAuthor().getIconUrl())
@@ -207,8 +213,7 @@ System.out.println("text:" + text);
 							.addField(oldEm.getFields().get(0).getName(), strB.toString(), true).build()).queue();
 				});
 
-				event.getTextChannel()
-						.sendMessage(new EmbedBuilder().setColor(Color.blue).setDescription("Poll closed!").build())
+				channel.sendMessage(new EmbedBuilder().setColor(Color.blue).setDescription("Poll closed!").build())
 						.queue();
 			}
 		};

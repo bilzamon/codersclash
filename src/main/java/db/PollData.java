@@ -1,5 +1,7 @@
 package db;
 
+import java.time.LocalDateTime;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class PollData.
@@ -19,13 +21,15 @@ public class PollData {
 	private String users;
 
 	/** The time. */
-	//private Time time;
+	private LocalDateTime time;
 
 	/** The options. */
 	private int[] options;
 
 	/** The open. */
 	private boolean open = true;
+	
+	private String channelId;
 
 	public boolean isOpen() {
 		return open;
@@ -128,6 +132,22 @@ public class PollData {
 	 */
 	public void setOptions(int[] options) {
 		this.options = options;
+	}
+
+	public LocalDateTime getTime() {
+		return time;
+	}
+
+	public void setTime(LocalDateTime time) {
+		this.time = time;
+	}
+
+	public String getChannelId() {
+		return channelId;
+	}
+
+	public void setChannelId(String channelId) {
+		this.channelId = channelId;
 	}
 
 	/**
