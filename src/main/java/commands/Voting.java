@@ -18,13 +18,24 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
+/**
+ * The Class Voting.
+ */
 public class Voting extends CommandHandler {
+	
+	/** The formatter. */
 	SimpleDateFormat formatter = new SimpleDateFormat("DD.MM.uuuu HH:mm");
 
+	/**
+	 * Instantiates a new voting.
+	 */
 	public Voting() {
 		super("vote");
 	}
 
+	/* (non-Javadoc)
+	 * @see command.CommandHandler#execute(command.CommandManager.ParsedCommandString, net.dv8tion.jda.core.events.message.MessageReceivedEvent)
+	 */
 	@Override
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
 
@@ -188,6 +199,13 @@ public class Voting extends CommandHandler {
 		event.getMessage().delete().queue();
 	}
 
+	/**
+	 * Timer start.
+	 *
+	 * @param time the time
+	 * @param messageId the message id
+	 * @param channel the channel
+	 */
 	public static void timerStart(LocalDateTime time, String messageId, TextChannel channel) {
 		ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 		Runnable task = new Runnable() {
