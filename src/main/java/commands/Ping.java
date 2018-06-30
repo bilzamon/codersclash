@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public class Ping extends CommandHandler {
 
 	public Ping() {
-		super("ping");
+		super("ping","ping","get the bot ping");
 	}
 
 	@Override

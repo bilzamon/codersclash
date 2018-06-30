@@ -33,7 +33,7 @@ public class Voting extends CommandHandler {
 	 * Instantiates a new voting.
 	 */
 	public Voting() {
-		super("vote");
+		super("vote","vote create;<time in DD.MM.YYYY HH:mm>;<option>;<options>","create a poll");
 	}
 
 	/*

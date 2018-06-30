@@ -20,7 +20,7 @@ public class XP extends CommandHandler {
 	 * Instantiates a new xp.
 	 */
 	public XP() {
-		super("xp");
+		super("xp","xp <username>","Get the xp");
 	}
 
 	/*

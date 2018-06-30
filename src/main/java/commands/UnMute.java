@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class UnMute extends CommandHandler {
     public UnMute(){
-        super("UnMute");
+        super("UnMute","unmute <user>","unmute a muted user");
     }
     @Override
     public void execute(CommandManager.ParsedCommandString parsedCommand, MessageReceivedEvent event) {

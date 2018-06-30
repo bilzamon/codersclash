@@ -10,18 +10,29 @@ import java.awt.*;
  */
 public abstract class CommandHandler {
 
+	/** The error. */
 	public static EmbedBuilder error = new EmbedBuilder().setColor(Color.RED);
 	
 	/** The invoke string. */
 	private String invokeString;
 	
+	/** The command usage. */
+	private String commandUsage;
+	
+	/** The description. */
+	private String description;
+	
 	/**
 	 * Instantiates a new command handler.
 	 *
 	 * @param invokeString the invoke string
+	 * @param commandUsage the command usage
+	 * @param description the description
 	 */
-	public CommandHandler(String invokeString) {
+	public CommandHandler(String invokeString,String commandUsage,String description) {
 		this.invokeString = invokeString;
+		this.commandUsage = commandUsage;
+		this.description = description;
 	}
 	
 	/**
@@ -39,5 +50,23 @@ public abstract class CommandHandler {
 	 */
 	public String getInvokeString() {
 		return invokeString;
+	}
+
+	/**
+	 * Gets the command usage.
+	 *
+	 * @return the command usage
+	 */
+	public String getCommandUsage() {
+		return commandUsage;
+	}
+
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
 	}
 }
