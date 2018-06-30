@@ -2,6 +2,7 @@ package commands;
 
 import command.CommandHandler;
 import command.CommandManager;
+import core.PermissionCore;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Role;
@@ -17,6 +18,9 @@ public class Mute extends CommandHandler {
 
     @Override
     public void execute(CommandManager.ParsedCommandString parsedCommand, MessageReceivedEvent event) {
+
+        if (PermissionCore.check(1,event))return;
+
         EmbedBuilder error = new EmbedBuilder().setColor(Color.RED).setTitle("Error");
         EmbedBuilder ok = new EmbedBuilder().setColor(Color.green).setTitle("Erfolgreich");
         if (!event.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {

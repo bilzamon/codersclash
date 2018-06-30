@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import command.CommandHandler;
 import command.CommandManager.ParsedCommandString;
+import core.PermissionCore;
 import db.PollData;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -38,6 +39,7 @@ public class Voting extends CommandHandler {
 	 */
 	@Override
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
+		if (PermissionCore.check(1,event))return;
 
 		if (parsedCommand.getArgs().length == 0) {
 			return;

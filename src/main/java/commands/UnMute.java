@@ -2,6 +2,7 @@ package commands;
 
 import command.CommandHandler;
 import command.CommandManager;
+import core.PermissionCore;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
@@ -15,6 +16,8 @@ public class UnMute extends CommandHandler {
     }
     @Override
     public void execute(CommandManager.ParsedCommandString parsedCommand, MessageReceivedEvent event) {
+        if (PermissionCore.check(1,event))return;
+
         EmbedBuilder error = new EmbedBuilder().setColor(Color.RED).setTitle("Error");
         Guild guild = event.getGuild();
 

@@ -1,9 +1,12 @@
 package commands.xp;
 
 import java.awt.Color;
+import java.lang.reflect.Member;
+import java.util.List;
 
 import command.CommandHandler;
 import command.CommandManager.ParsedCommandString;
+import db.MySQL;
 import db.UserData;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -55,6 +58,22 @@ public class XP extends CommandHandler {
 							.build())
 					.queue();
 
+		}
+
+		if (parsedCommand.getArgs().length == 0)return;
+		if (parsedCommand.getArgs()[0].equalsIgnoreCase("rank")){
+
+			List<String> top10Ids = MySQL.getTop10Ranks();
+
+			StringBuilder sb = new StringBuilder();
+			int i = 1;
+			for (String m : top10Ids) {
+				UserData tmpData = UserData.fromId(m);
+				sb.append("``#" + i + "`` - " + event.getGuild().getMemberById(m).getAsMention() + " - Level "
+						+ tmpData.getLevel() + "(" + tmpData.getTotalXp() + "XP)\n");
+				i++;
+			}
+			event.getTextChannel().sendMessage(new EmbedBuilder().setColor(Color.cyan).setDescription(sb.toString()).build()).queue();
 		}
 	}
 }

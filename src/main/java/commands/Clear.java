@@ -7,6 +7,7 @@ import java.util.TimerTask;
 
 import command.CommandHandler;
 import command.CommandManager.ParsedCommandString;
+import core.PermissionCore;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageHistory;
@@ -28,6 +29,9 @@ public class Clear extends CommandHandler {
 
 	@Override
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
+
+		if (PermissionCore.check(1,event))return;
+
 		String[] args = parsedCommand.getArgs();
 		int numb = getInt(args[0]);
 

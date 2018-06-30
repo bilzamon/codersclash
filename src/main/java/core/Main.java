@@ -46,6 +46,7 @@ public class Main {
 	 */
 	private void initCommandHandlers(CommandManager commandManager) {
 		commandManager.setupCommandHandlers(new Clear());
+		commandManager.setupCommandHandlers(new Stop());
 		commandManager.setupCommandHandlers(new GuildInfo());
 		commandManager.setupCommandHandlers(new Ping());
 		commandManager.setupCommandHandlers(new Say());
@@ -58,6 +59,7 @@ public class Main {
 		commandManager.setupCommandHandlers(new XPNotify());
 		commandManager.setupCommandHandlers(new AddUserToPrivateVoiceChannel());
 		commandManager.setupCommandHandlers(new VierGewinnt());
+		commandManager.setupCommandHandlers(new Help());
 	}
 
 	/**

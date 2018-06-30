@@ -6,6 +6,7 @@ import java.util.TimerTask;
 
 import command.CommandHandler;
 import command.CommandManager.ParsedCommandString;
+import core.PermissionCore;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -18,6 +19,9 @@ public class Stop extends CommandHandler {
 
 	@Override
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
+
+		if (PermissionCore.check(4,event))return;
+
 		event.getMessage().delete().queue();
 
 		Message msg = event.getTextChannel()
