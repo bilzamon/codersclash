@@ -25,7 +25,7 @@ public class MySQL {
 	private static Connection connection;
 
 	/**
-	 * Connect to mysql
+	 * Connect to mysql.
 	 */
 	public static void connect() {
 		try {
@@ -61,10 +61,20 @@ public class MySQL {
 		}
 	}
 
+	/**
+	 * Gets the connection.
+	 *
+	 * @return the connection
+	 */
 	public static Connection getConnection() {
 		return connection;
 	}
 
+	/**
+	 * Save user data.
+	 *
+	 * @param data the data
+	 */
 	public static void saveUserData(UserData data) {
 		try {
 			if (connection.isClosed()) {
@@ -83,6 +93,12 @@ public class MySQL {
 		}
 	}
 
+	/**
+	 * Load from id.
+	 *
+	 * @param userId the user id
+	 * @return the user data
+	 */
 	public static UserData loadFromId(String userId) {
 		UserData data = new UserData();
 		try {
@@ -106,7 +122,12 @@ public class MySQL {
 		return null;
 	}
 
-	public static List<String> getRankUserId() {
+	/**
+	 * Gets the top 10 ranks.
+	 *
+	 * @return the top 10 ranks as a list with userIds
+	 */
+	public static List<String> getTop10Ranks() {
 		try {
 			if (connection.isClosed()) {
 				connect();
@@ -116,7 +137,7 @@ public class MySQL {
 			ResultSet rs = ps.executeQuery();
 			List<String> top10 = new ArrayList<String>();
 			while (rs.next()) {
-				top10.add(rs.getString(1));
+				top10.add(rs.getString(2));
 			}
 			return top10;
 		} catch (SQLException e) {
@@ -125,6 +146,12 @@ public class MySQL {
 		return null;
 	}
 
+	/**
+	 * Insert report.
+	 *
+	 * @param userId the user id
+	 * @param reason the reason
+	 */
 	public static void insertReport(String userId, String reason) {
 		try {
 			if (connection.isClosed()) {
@@ -139,6 +166,12 @@ public class MySQL {
 		}
 	}
 
+	/**
+	 * Insert report count.
+	 *
+	 * @param userId the user id
+	 * @param count the count
+	 */
 	public static void insertReportCount(String userId, int count) {
 		try {
 			if (connection.isClosed()) {
@@ -153,6 +186,12 @@ public class MySQL {
 		}
 	}
 
+	/**
+	 * Load report count.
+	 *
+	 * @param userId the user id
+	 * @return the int
+	 */
 	public static int loadReportCount(String userId) {
 		try {
 			if (connection.isClosed()) {
@@ -170,6 +209,11 @@ public class MySQL {
 		return 0;
 	}
 
+	/**
+	 * Save poll data.
+	 *
+	 * @param data the data
+	 */
 	public static void savePollData(PollData data) {
 		try {
 			if (connection.isClosed()) {
@@ -198,6 +242,12 @@ public class MySQL {
 		}
 	}
 
+	/**
+	 * Gets the poll data.
+	 *
+	 * @param messageId the message id
+	 * @return the poll data
+	 */
 	public static PollData getPollData(String messageId) {
 		try {
 			if (connection.isClosed()) {
@@ -231,6 +281,9 @@ public class MySQL {
 		return null;
 	}
 
+	/**
+	 * Generate xp table.
+	 */
 	public static void generateXpTable() {
 		try {
 			if (connection.isClosed()) {
@@ -246,6 +299,9 @@ public class MySQL {
 		}
 	}
 
+	/**
+	 * Load poll timer.
+	 */
 	public static void loadPollTimer() {
 		try {
 			if (connection.isClosed()) {
@@ -294,6 +350,9 @@ public class MySQL {
 		}
 	}
 
+	/**
+	 * Generate report table.
+	 */
 	public static void generateReportTable() {
 		try {
 			if (connection.isClosed()) {
@@ -308,6 +367,9 @@ public class MySQL {
 		}
 	}
 
+	/**
+	 * Generate report count table.
+	 */
 	public static void generateReportCountTable() {
 		try {
 			if (connection.isClosed()) {
@@ -322,6 +384,9 @@ public class MySQL {
 		}
 	}
 
+	/**
+	 * Generate poll table.
+	 */
 	public static void generatePollTable() {
 		try {
 			if (connection.isClosed()) {
