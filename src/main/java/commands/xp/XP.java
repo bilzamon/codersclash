@@ -1,12 +1,9 @@
 package commands.xp;
 
 import java.awt.Color;
-import java.lang.reflect.Member;
-import java.util.List;
 
 import command.CommandHandler;
 import command.CommandManager.ParsedCommandString;
-import db.MySQL;
 import db.UserData;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -24,56 +21,41 @@ public class XP extends CommandHandler {
 		super("xp");
 	}
 
-	/* (non-Javadoc)
-	 * @see command.CommandHandler#execute(command.CommandManager.ParsedCommandString, net.dv8tion.jda.core.events.message.MessageReceivedEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * command.CommandHandler#execute(command.CommandManager.ParsedCommandString,
+	 * net.dv8tion.jda.core.events.message.MessageReceivedEvent)
 	 */
 	@Override
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
 		String id = "";
 		if (parsedCommand.getArgs().length == 0) {
-			UserData data = UserData.fromId(event.getAuthor().getId());
-			if (data != null) {
-				event.getChannel()
-						.sendMessage(new EmbedBuilder().setColor(Color.green)
-								.setTitle("Level: " + data.getLevel() + " (" + Level.remainingXp(data.getTotalXp())
-										+ "/" + Level.xpToLevelUp(data.getLevel()) + ")" + "XP")
-								.setFooter(event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator(),
-										event.getAuthor().getAvatarUrl())
-								.build())
-						.queue();
-			}
+			id = event.getAuthor().getId();
 		} else if (event.getMessage().getMentionedMembers().size() > 0) {
 			id = event.getMessage().getMentionedMembers().get(0).getUser().getId();
 		} else if (event.getGuild().getMembersByEffectiveName(parsedCommand.getArgs()[0], true).size() > 0) {
 			id = event.getGuild().getMembersByEffectiveName(parsedCommand.getArgs()[0], true).get(0).getUser().getId();
 		}
+
 		UserData data = UserData.fromId(id);
+
+		EmbedBuilder eb = new EmbedBuilder().setColor(Color.green).setFooter(
+				event.getGuild().getMemberById(id).getUser().getName() + "#"
+						+ event.getGuild().getMemberById(id).getUser().getDiscriminator(),
+				event.getGuild().getMemberById(id).getUser().getAvatarUrl());
+
 		if (data != null) {
-			event.getChannel()
-					.sendMessage(new EmbedBuilder().setColor(Color.green)
-							.setTitle("Level: " + data.getLevel() + " (" + Level.remainingXp(data.getTotalXp()) + "/"
-									+ Level.xpToLevelUp(data.getLevel()) + ")" + "XP")
-							.setFooter(event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator(),
-									event.getAuthor().getAvatarUrl())
-							.build())
-					.queue();
-
+			double percent = 100 - Double.valueOf(Level.remainingXp(data.getTotalXp()))
+					/ Double.valueOf(Level.xpToLevelUp(data.getLevel())) * 100;
+			
+			eb.setTitle("Level: " + data.getLevel() + " (" + Level.remainingXp(data.getTotalXp()) + "/"
+					+ Level.xpToLevelUp(data.getLevel()) + ")" + "XP")
+					.setDescription("Noch " + percent + " % bis zum nächsten Level");
+		} else {
+			eb.setTitle("Level: 0 (0/0)XP").setDescription("You have not sent a message yet");
 		}
-
-		if (parsedCommand.getArgs().length == 0)return;
-		if (parsedCommand.getArgs()[0].equalsIgnoreCase("rank")){
-
-			List<String> top10Ids = MySQL.getTop10Ranks();
-
-			StringBuilder sb = new StringBuilder();
-			int i = 1;
-			for (String m : top10Ids) {
-				UserData tmpData = UserData.fromId(m);
-				sb.append("``#" + i + "`` - " + event.getGuild().getMemberById(m).getAsMention() + " - Level "
-						+ tmpData.getLevel() + "(" + tmpData.getTotalXp() + "XP)\n");
-				i++;
-			}
-			event.getTextChannel().sendMessage(new EmbedBuilder().setColor(Color.cyan).setDescription(sb.toString()).build()).queue();
-		}
+		event.getTextChannel().sendMessage(eb.build()).queue();
 	}
 }

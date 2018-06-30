@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -18,12 +19,13 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import util.Util;
 
 /**
  * The Class Voting.
  */
 public class Voting extends CommandHandler {
-	
+
 	/** The formatter. */
 	SimpleDateFormat formatter = new SimpleDateFormat("DD.MM.uuuu HH:mm");
 
@@ -34,8 +36,12 @@ public class Voting extends CommandHandler {
 		super("vote");
 	}
 
-	/* (non-Javadoc)
-	 * @see command.CommandHandler#execute(command.CommandManager.ParsedCommandString, net.dv8tion.jda.core.events.message.MessageReceivedEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * command.CommandHandler#execute(command.CommandManager.ParsedCommandString,
+	 * net.dv8tion.jda.core.events.message.MessageReceivedEvent)
 	 */
 	@Override
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
@@ -63,88 +69,26 @@ public class Voting extends CommandHandler {
 					.setAuthor(event.getAuthor().getName(), null, event.getAuthor().getAvatarUrl())
 					.setDescription(input[0]);
 
-			String options = "";
-			// TODO own class for that stuff
-			for (int i = 2; i < input.length; i++) {
-				switch (i - 1) {
-				case 1:
-					options += " :one: ";
-					break;
-				case 2:
-					options += ":two: ";
-					break;
-				case 3:
-					options += ":three: ";
-					break;
-				case 4:
-					options += ":four: ";
-					break;
-				case 5:
-					options += ":five: ";
-					break;
-				case 6:
-					options += ":six: ";
-					break;
-				case 7:
-					options += ":seven: ";
-					break;
-				case 8:
-					options += ":eight: ";
-					break;
-				case 9:
-					options += ":nine: ";
-					break;
-				default:
-					break;
-				}
-				options += input[i] + "\n";
-			}
-
-			eb.addField("Options", options, true);
+			eb.addField("Options", Util.getVotingOptions(input), true);
 
 			event.getTextChannel().sendMessage(eb.build()).queue((message) -> {
 				pData.setMessageId(message.getId());
 				pData.setChannelId(event.getChannel().getId());
 
-				// TODO own class for that stuff
-				for (int i = 2; i < input.length; i++) {
-					switch (i - 1) {
-					case 1:
-						message.addReaction("1⃣").queue();
-						break;
-					case 2:
-						message.addReaction("2⃣").queue();
-						break;
-					case 3:
-						message.addReaction("3⃣").queue();
-						break;
-					case 4:
-						message.addReaction("4⃣").queue();
-						break;
-					case 5:
-						message.addReaction("5⃣").queue();
-						break;
-					case 6:
-						message.addReaction("6⃣").queue();
-						break;
-					case 7:
-						message.addReaction("7⃣").queue();
-						break;
-					case 8:
-						message.addReaction("8⃣").queue();
-						break;
-					case 9:
-						message.addReaction("9⃣").queue();
-						break;
-					default:
-						break;
-					}
+				Util.addReactionsToMessage(message, input.length);
+
+				LocalDateTime time = null;
+				try {
+					time = LocalDateTime.parse(input[1], DateTimeFormatter.ofPattern("dd.MM.uuuu HH:mm"));
+				} catch (DateTimeParseException e) {
+					System.err.println("Couldn't parse time");
 				}
 
-				LocalDateTime time = LocalDateTime.parse(input[1], DateTimeFormatter.ofPattern("dd.MM.uuuu HH:mm"));
-				pData.setTime(time);
-				pData.saveToDb(pData);
-				timerStart(time, message.getId(), event.getTextChannel());
+				if (time != null) {
+					pData.setTime(time);
+					pData.saveToDb(pData);
+					timerStart(time, message.getId(), event.getTextChannel());
+				}
 			});
 
 		} else if (parsedCommand.getArgs()[0].equalsIgnoreCase("close")) {
@@ -204,9 +148,12 @@ public class Voting extends CommandHandler {
 	/**
 	 * Timer start.
 	 *
-	 * @param time the time
-	 * @param messageId the message id
-	 * @param channel the channel
+	 * @param time
+	 *            the time
+	 * @param messageId
+	 *            the message id
+	 * @param channel
+	 *            the channel
 	 */
 	public static void timerStart(LocalDateTime time, String messageId, TextChannel channel) {
 		ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();

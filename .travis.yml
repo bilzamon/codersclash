@@ -12,5 +12,5 @@ after_failure:
 notifications:
   webhooks: https://maker.ifttt.com/trigger/travis_trigger/with/key/mgTT-g4r3US9_gLwvmHwqH6nqBduvRfCMX2JzFCIXCe
   email:
-    on_success: always
-    on_failure: always
+    on_success: change
+    on_failure: change

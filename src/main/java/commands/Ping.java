@@ -17,7 +17,5 @@ public class Ping extends CommandHandler {
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
 		event.getTextChannel().sendMessage(new EmbedBuilder().setColor(Color.green)
 				.setDescription("Ping: " + event.getJDA().getPing() + "").build()).queue();
-
 	}
-
 }

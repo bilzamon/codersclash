@@ -1,12 +1,16 @@
 package listeners;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import db.UserData;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import util.Settings;
 import util.Statics;
 
-// TODO: Auto-generated Javadoc
 /**
  * The listener interface for receiving xp events. The class that is interested
  * in processing a xp event implements this interface, and the object created
@@ -17,6 +21,7 @@ import util.Statics;
  *
  */
 public class XPListener extends ListenerAdapter {
+	private List<String> spamFilter = new ArrayList<>();
 
 	/**
 	 * On guild message received.
@@ -43,6 +48,14 @@ public class XPListener extends ListenerAdapter {
 		data.setTotalXp(data.getTotalXp() + Statics.XP_GAIN);
 		data.save(data);
 
-		// TODO SPAM unterbinden?
+		spamFilter.add(event.getAuthor().getId());
+		//only 1 Message every 60s counts
+		new Timer().schedule(new TimerTask() {
+			@Override
+			public void run() {
+				spamFilter.remove(event.getAuthor().getId());
+			}
+		}, 1000 * 60);
+		
 	}
 }

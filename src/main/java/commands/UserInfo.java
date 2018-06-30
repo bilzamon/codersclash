@@ -15,7 +15,6 @@ public class UserInfo extends CommandHandler {
 
 	public UserInfo() {
 		super("userinfo");
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
