@@ -1,21 +1,16 @@
 package commands;
 
+import java.awt.Color;
+
 import command.CommandHandler;
 import command.CommandManager.ParsedCommandString;
 import core.PermissionCore;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageHistory;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-
-import java.awt.*;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Help extends CommandHandler {
 	public Help() {
-		super("help");
+		super("help","help","get help");
 	}
 
 	@Override

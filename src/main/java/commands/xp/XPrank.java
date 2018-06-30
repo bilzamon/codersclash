@@ -1,5 +1,8 @@
 package commands.xp;
 
+import java.awt.Color;
+import java.util.List;
+
 import command.CommandHandler;
 import command.CommandManager;
 import db.MySQL;
@@ -7,12 +10,9 @@ import db.UserData;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-import java.awt.*;
-import java.util.List;
-
 public class XPrank extends CommandHandler {
     public XPrank() {
-        super("xprank");
+        super("xprank","xprank","get the top 10 ranks");
     }
 
     @Override

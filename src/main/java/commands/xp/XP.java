@@ -1,11 +1,9 @@
 package commands.xp;
 
 import java.awt.Color;
-import java.util.List;
 
 import command.CommandHandler;
 import command.CommandManager.ParsedCommandString;
-import db.MySQL;
 import db.UserData;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
