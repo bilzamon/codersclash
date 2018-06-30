@@ -3,7 +3,6 @@ package db;
 import core.Main;
 import util.Level;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UserData.
  */

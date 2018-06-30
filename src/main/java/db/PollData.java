@@ -2,7 +2,6 @@ package db;
 
 import java.time.LocalDateTime;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class PollData.
  */

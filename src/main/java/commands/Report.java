@@ -13,7 +13,6 @@ public class Report extends CommandHandler {
 
 	public Report() {
 		super("report");
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
