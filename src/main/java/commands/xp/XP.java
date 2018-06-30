@@ -1,9 +1,11 @@
 package commands.xp;
 
 import java.awt.Color;
+import java.util.List;
 
 import command.CommandHandler;
 import command.CommandManager.ParsedCommandString;
+import db.MySQL;
 import db.UserData;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -23,7 +25,7 @@ public class XP extends CommandHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * command.CommandHandler#execute(command.CommandManager.ParsedCommandString,
 	 * net.dv8tion.jda.core.events.message.MessageReceivedEvent)
@@ -49,7 +51,7 @@ public class XP extends CommandHandler {
 		if (data != null) {
 			double percent = 100 - Double.valueOf(Level.remainingXp(data.getTotalXp()))
 					/ Double.valueOf(Level.xpToLevelUp(data.getLevel())) * 100;
-			
+
 			eb.setTitle("Level: " + data.getLevel() + " (" + Level.remainingXp(data.getTotalXp()) + "/"
 					+ Level.xpToLevelUp(data.getLevel()) + ")" + "XP")
 					.setDescription("Noch " + percent + " % bis zum nächsten Level");
@@ -57,5 +59,7 @@ public class XP extends CommandHandler {
 			eb.setTitle("Level: 0 (0/0)XP").setDescription("You have not sent a message yet");
 		}
 		event.getTextChannel().sendMessage(eb.build()).queue();
+
+		}
+
 	}
-}

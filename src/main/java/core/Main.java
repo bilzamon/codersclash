@@ -6,6 +6,7 @@ import command.CommandManager;
 import commands.*;
 import commands.xp.XP;
 import commands.xp.XPNotify;
+import commands.xp.XPrank;
 import db.MySQL;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -52,6 +53,7 @@ public class Main {
 		commandManager.setupCommandHandlers(new Say());
 		commandManager.setupCommandHandlers(new UserInfo());
 		commandManager.setupCommandHandlers(new XP());
+		commandManager.setupCommandHandlers(new XPrank());
 		commandManager.setupCommandHandlers(new Report());
 		commandManager.setupCommandHandlers(new Voting());
 		commandManager.setupCommandHandlers(new Mute());
