@@ -9,12 +9,21 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import util.Level;
 
+/**
+ * The Class XP.
+ */
 public class XP extends CommandHandler {
 
+	/**
+	 * Instantiates a new xp.
+	 */
 	public XP() {
 		super("xp");
 	}
 
+	/* (non-Javadoc)
+	 * @see command.CommandHandler#execute(command.CommandManager.ParsedCommandString, net.dv8tion.jda.core.events.message.MessageReceivedEvent)
+	 */
 	@Override
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
 		String id = "";

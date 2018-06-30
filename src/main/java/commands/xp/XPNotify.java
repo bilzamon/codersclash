@@ -8,11 +8,16 @@ import command.CommandManager.ParsedCommandString;
 import db.UserData;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
+/**
+ * The Class XPNotify.
+ */
 public class XPNotify extends CommandHandler {
 
+	/**
+	 * Instantiates a new XP notify.
+	 */
 	public XPNotify() {
 		super("xpnotify");
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
@@ -30,6 +35,5 @@ public class XPNotify extends CommandHandler {
 			event.getTextChannel().sendMessage("LevelUp message successful enabled").queue();
 		}
 		data.save(data);
-		
 	}
 }
