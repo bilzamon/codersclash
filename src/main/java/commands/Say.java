@@ -7,7 +7,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public class Say extends CommandHandler {
 
 	public Say() {
-		super("say");
+		super("say","say <text>","let the bot write a message");
 	}
 
 	@Override

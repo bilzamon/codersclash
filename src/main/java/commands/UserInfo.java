@@ -13,7 +13,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public class UserInfo extends CommandHandler {
 
 	public UserInfo() {
-		super("userinfo");
+		super("userinfo","userinfo <user>","get userinfos");
 	}
 
 	@Override

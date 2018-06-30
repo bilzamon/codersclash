@@ -12,7 +12,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public class Report extends CommandHandler {
 
 	public Report() {
-		super("report");
+		super("report","report <user> <reason>","report a user");
 	}
 
 	@Override
@@ -21,7 +21,7 @@ public class Report extends CommandHandler {
 		if (event.getMessage().getMentionedUsers().size() == 1) {
 			reported = event.getMessage().getMentionedUsers().get(0);
 		} else {
-			event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.red).setDescription("test").build())
+			event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.red).setDescription("No user found").build())
 					.queue();
 			return;
 		}

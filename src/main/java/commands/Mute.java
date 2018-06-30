@@ -12,7 +12,7 @@ import java.awt.*;
 public class Mute extends CommandHandler {
 
     public Mute() {
-        super("Mute");
+        super("Mute","mute <user>","mute a user");
     }
 
     @Override

@@ -11,7 +11,8 @@ import java.awt.*;
 public class AddUserToPrivateVoiceChannel extends CommandHandler {
 
     public AddUserToPrivateVoiceChannel() {
-        super("AddUserToPrivateVoiceChannel");
+        super("AddUserToPrivateVoiceChannel","","add a user to your private channel");
+        //TODO add usage
     }
 
     @Override

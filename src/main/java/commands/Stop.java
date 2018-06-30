@@ -13,7 +13,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public class Stop extends CommandHandler {
 
 	public Stop() {
-		super("stop");
+		super("stop","stop","stops the bot");
 	}
 
 	@Override

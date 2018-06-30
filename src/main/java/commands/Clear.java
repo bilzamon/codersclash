@@ -14,7 +14,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class Clear extends CommandHandler {
 	public Clear() {
-		super("clear");
+		super("clear","clear <anzahl>","clear some messages");
 	}
 
 	private int getInt(String string) {

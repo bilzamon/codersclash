@@ -16,7 +16,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public class GuildInfo extends CommandHandler {
 
 	public GuildInfo() {
-		super("guildinfo");
+		super("guildinfo","guildinfo","get the guildinfo");
 	}
 
 	@Override
