@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 import commands.Voting;
 import core.Main;
@@ -104,18 +106,19 @@ public class MySQL {
 		return null;
 	}
 
-	public static String getRankUserId() {
+	public static List<String> getRankUserId() {
 		try {
 			if (connection.isClosed()) {
 				connect();
 			}
-			PreparedStatement ps = connection
-					.prepareStatement("SELECT `userid` FROM xp WHERE `totalxp` = (SELECT MAX(totalXp) FROM xp)");
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM `xp` ORDER BY `totalxp` DESC LIMIT 10");
 
 			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				return rs.getString(1);
+			List<String> top10 = new ArrayList<String>();
+			while (rs.next()) {
+				top10.add(rs.getString(1));
 			}
+			return top10;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
