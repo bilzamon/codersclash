@@ -37,6 +37,8 @@ public class XP extends CommandHandler {
 			id = event.getMessage().getMentionedMembers().get(0).getUser().getId();
 		} else if (event.getGuild().getMembersByEffectiveName(parsedCommand.getArgs()[0], true).size() > 0) {
 			id = event.getGuild().getMembersByEffectiveName(parsedCommand.getArgs()[0], true).get(0).getUser().getId();
+		}else {
+			return;
 		}
 
 		UserData data = UserData.fromId(id);
