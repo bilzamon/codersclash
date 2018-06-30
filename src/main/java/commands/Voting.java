@@ -189,13 +189,9 @@ public class Voting extends CommandHandler {
 	}
 
 	public static void timerStart(LocalDateTime time, String messageId, TextChannel channel) {
-		// TODO after restart set timer again
-		System.out.println("timerStart time" + (time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-		- LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()));
 		ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 		Runnable task = new Runnable() {
 			public void run() {
-				System.out.println("timer executed");
 				PollData timerPollData = new PollData().getDbData(messageId);
 				timerPollData.setOpen(false);
 				timerPollData.saveToDb(timerPollData);
