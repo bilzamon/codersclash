@@ -105,7 +105,7 @@ public class Voting extends CommandHandler {
 					String[] values = oldEm.getFields().get(0).getValue().split("\n");
 					StringBuilder strB = new StringBuilder();
 					for (int i = 0; i < values.length; i++) {
-						strB.append(" " + values[i] + "`" + pData.getOptions()[i] + "`" + "\n");
+						strB.append(values[i] + "`" + pData.getOptions()[i] + "`" + "\n");
 					}
 					message.editMessage(new EmbedBuilder()
 							.setAuthor(oldEm.getAuthor().getName(), null, oldEm.getAuthor().getIconUrl())
