@@ -29,7 +29,7 @@ public class BuildManager {
 		builder.addEventListener(new CommandManager());
 		builder.addEventListener(new ReadyListener());
 		builder.addEventListener(new XPListener());
-		//builder.addEventListener(new VotingListener());
+		builder.addEventListener(new VotingListener());
 		builder.addEventListener(new ChannelCreateListener());
 		builder.addEventListener(new VCPrivateTextChannel());
 		builder.addEventListener(new Autochannel());

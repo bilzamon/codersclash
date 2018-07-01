@@ -17,14 +17,13 @@ public class VotingListener extends ListenerAdapter {
 		}
 		String emoteName = event.getReactionEmote().getName();
 		
-		event.getReaction().removeReaction(event.getUser()).queue();
-		
 		PollData pData = new PollData().getDbData(event.getMessageId());
 
 		if (!pData.isOpen() || pData.getMessageId() == null) {
 			return;
 		}
-
+		
+		event.getReaction().removeReaction(event.getUser()).queue();
 		List<String> usersVoted = null;
 		if (pData.getUsers() != null) {
 			usersVoted = new ArrayList<String>(Arrays.asList(pData.getUsers().split(",")));
