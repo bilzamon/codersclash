@@ -18,7 +18,7 @@ public class XP extends CommandHandler {
 	 * Instantiates a new xp.
 	 */
 	public XP() {
-		super("xp","xp <username>","Get the xp");
+		super("xp", "xp <username>", "Get the xp");
 	}
 
 	/*
@@ -37,7 +37,7 @@ public class XP extends CommandHandler {
 			id = event.getMessage().getMentionedMembers().get(0).getUser().getId();
 		} else if (event.getGuild().getMembersByEffectiveName(parsedCommand.getArgs()[0], true).size() > 0) {
 			id = event.getGuild().getMembersByEffectiveName(parsedCommand.getArgs()[0], true).get(0).getUser().getId();
-		}else {
+		} else {
 			return;
 		}
 
@@ -60,6 +60,6 @@ public class XP extends CommandHandler {
 		}
 		event.getTextChannel().sendMessage(eb.build()).queue();
 
-		}
-
 	}
+
+}
