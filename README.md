@@ -10,6 +10,7 @@
 | CI | Status |
 | ------ | ------ |
 | Travis CI | [![Build Status](https://www.travis-ci.com/HGotthard/codersclash.svg?token=Dp7wXYT2VP46cxFLsMuV&branch=master)](https://www.travis-ci.com/HGotthard/codersclash) |
+| Codefactor |[![CodeFactor](https://www.codefactor.io/repository/github/hgotthard/codersclash/badge/master)](https://www.codefactor.io/repository/github/hgotthard/codersclash/overview/master) |
 
 ## Features
 - [x] MySQL

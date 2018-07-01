@@ -8,7 +8,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 public class PrivateVoice extends ListenerAdapter {
     public void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
-        if (event.getChannelJoined().getName().contains("\uD83C\uDDF5")) {
+        if (event.getChannelJoined().getName().contains("🇵")) {
             event.getGuild().getController().createVoiceChannel("[PRIVAT] " + event.getMember().getUser().getName()).complete().createPermissionOverride(event.getGuild().getPublicRole()).setDeny(Permission.VOICE_CONNECT).queue();
             event.getGuild().getVoiceChannelsByName("[PRIVAT] " + event.getMember().getUser().getName(), false).get(0).createPermissionOverride(event.getMember()).setAllow(Permission.VOICE_CONNECT).queue();
             event.getGuild().getController().moveVoiceMember(event.getMember(), event.getGuild().getVoiceChannelsByName("[PRIVAT] " + event.getMember().getUser().getName(), false).get(0)).queue();
@@ -22,7 +22,7 @@ public class PrivateVoice extends ListenerAdapter {
         }
     }
     public void onGuildVoiceMove(GuildVoiceMoveEvent event) {
-        if (event.getChannelJoined().getName().contains("\uD83C\uDDF5")) {
+        if (event.getChannelJoined().getName().contains("🇵")) {
             event.getGuild().getController().createVoiceChannel("[PRIVAT] " + event.getMember().getUser().getName()).complete().createPermissionOverride(event.getGuild().getPublicRole()).setDeny(Permission.VOICE_CONNECT).queue();
             event.getGuild().getVoiceChannelsByName("[PRIVAT] " + event.getMember().getUser().getName(), false).get(0).createPermissionOverride(event.getMember()).setAllow(Permission.VOICE_CONNECT).queue();
             event.getGuild().getController().moveVoiceMember(event.getMember(), event.getGuild().getVoiceChannelsByName("[PRIVAT] " + event.getMember().getUser().getName(), false).get(0)).queue();

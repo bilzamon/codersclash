@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import command.CommandHandler;
 import command.CommandManager.ParsedCommandString;
+import core.PermissionCore;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
@@ -13,7 +14,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public class UserInfo extends CommandHandler {
 
 	public UserInfo() {
-		super("userinfo");
+		super("userinfo","userinfo <user>","get userinfos");
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class UserInfo extends CommandHandler {
 		String ROLES = "";
 		String GAME;
 		String AVATAR = memb.getUser().getAvatarUrl();
-		//TODO String PERM = PermissionCore.getlvl(memb) + "";
+		String PERM = PermissionCore.getLevel(memb) + "";
 
 		try {
 			GAME = memb.getGame().getName();
@@ -67,7 +68,7 @@ public class UserInfo extends CommandHandler {
 		em.addField("Aktueller Status", STATUS, false);
 		em.addField("Aktuelles Spiel", GAME, false);
 		em.addField("Rollen", ROLES, false);
-	//TODO	em.addField("Guildberechtigungsstufe", "``" + PERM + "``", false);
+	    em.addField("Guildberechtigungsstufe", "``" + PERM + "``", false);
 		em.addField("Server beigetreten", GUILD_JOIN_DATE, false);
 		em.addField("Discord beigetreten", DISCORD_JOINED_DATE, false);
 

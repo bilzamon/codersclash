@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import command.CommandHandler;
 import command.CommandManager.ParsedCommandString;
+import core.PermissionCore;
 import db.MySQL;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.User;
@@ -12,16 +13,18 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public class Report extends CommandHandler {
 
 	public Report() {
-		super("report");
+		super("report","report <user> <reason>","report a user");
 	}
 
 	@Override
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
+		if (PermissionCore.check(1,event))return;
+
 		User reported = null;
 		if (event.getMessage().getMentionedUsers().size() == 1) {
 			reported = event.getMessage().getMentionedUsers().get(0);
 		} else {
-			event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.red).setDescription("test").build())
+			event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.red).setDescription("No user found").build())
 					.queue();
 			return;
 		}

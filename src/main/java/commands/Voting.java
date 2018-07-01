@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import command.CommandHandler;
 import command.CommandManager.ParsedCommandString;
+import core.PermissionCore;
 import db.PollData;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -32,7 +33,7 @@ public class Voting extends CommandHandler {
 	 * Instantiates a new voting.
 	 */
 	public Voting() {
-		super("vote");
+		super("vote","vote create;<time in DD.MM.YYYY HH:mm>;<option>;<options>","create a poll");
 	}
 
 	/*
@@ -44,6 +45,7 @@ public class Voting extends CommandHandler {
 	 */
 	@Override
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
+		if (PermissionCore.check(1,event))return;
 
 		if (parsedCommand.getArgs().length == 0) {
 			return;
@@ -103,7 +105,7 @@ public class Voting extends CommandHandler {
 					String[] values = oldEm.getFields().get(0).getValue().split("\n");
 					StringBuilder strB = new StringBuilder();
 					for (int i = 0; i < values.length; i++) {
-						strB.append(" " + values[i] + "`" + pData.getOptions()[i] + "`" + "\n");
+						strB.append(values[i] + "`" + pData.getOptions()[i] + "`" + "\n");
 					}
 					message.editMessage(new EmbedBuilder()
 							.setAuthor(oldEm.getAuthor().getName(), null, oldEm.getAuthor().getIconUrl())

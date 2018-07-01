@@ -1,5 +1,6 @@
 package util;
 
+import db.PollData;
 import net.dv8tion.jda.core.entities.Message;
 
 public class Util {
@@ -78,6 +79,42 @@ public class Util {
 			}
 		}
 
+	}
+
+	public static int[] getOptionFromMessage(PollData pData, String emoteName) {
+		int options[] = pData.getOptions();
+		switch (emoteName) {
+		case "1⃣":
+			options[0] += 1;
+			break;
+		case "2⃣":
+			options[1] += 1;
+			break;
+		case "3⃣":
+			options[2] += 1;
+			break;
+		case "4⃣":
+			options[3] += 1;
+			break;
+		case "5⃣":
+			options[4] += 1;
+			break;
+		case "6⃣":
+			options[5] += 1;
+			break;
+		case "7⃣":
+			options[6] += 1;
+			break;
+		case "8⃣":
+			options[7] += 1;
+			break;
+		case "9⃣":
+			options[8] += 1;
+			break;
+		default:
+			break;
+		}
+		return options;
 	}
 
 }

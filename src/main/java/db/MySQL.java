@@ -73,7 +73,8 @@ public class MySQL {
 	/**
 	 * Save user data.
 	 *
-	 * @param data the data
+	 * @param data
+	 *            the data
 	 */
 	public static void saveUserData(UserData data) {
 		try {
@@ -96,7 +97,8 @@ public class MySQL {
 	/**
 	 * Load from id.
 	 *
-	 * @param userId the user id
+	 * @param userId
+	 *            the user id
 	 * @return the user data
 	 */
 	public static UserData loadFromId(String userId) {
@@ -149,8 +151,10 @@ public class MySQL {
 	/**
 	 * Insert report.
 	 *
-	 * @param userId the user id
-	 * @param reason the reason
+	 * @param userId
+	 *            the user id
+	 * @param reason
+	 *            the reason
 	 */
 	public static void insertReport(String userId, String reason) {
 		try {
@@ -169,8 +173,10 @@ public class MySQL {
 	/**
 	 * Insert report count.
 	 *
-	 * @param userId the user id
-	 * @param count the count
+	 * @param userId
+	 *            the user id
+	 * @param count
+	 *            the count
 	 */
 	public static void insertReportCount(String userId, int count) {
 		try {
@@ -189,7 +195,8 @@ public class MySQL {
 	/**
 	 * Load report count.
 	 *
-	 * @param userId the user id
+	 * @param userId
+	 *            the user id
 	 * @return the int
 	 */
 	public static int loadReportCount(String userId) {
@@ -212,7 +219,8 @@ public class MySQL {
 	/**
 	 * Save poll data.
 	 *
-	 * @param data the data
+	 * @param data
+	 *            the data
 	 */
 	public static void savePollData(PollData data) {
 		try {
@@ -245,7 +253,8 @@ public class MySQL {
 	/**
 	 * Gets the poll data.
 	 *
-	 * @param messageId the message id
+	 * @param messageId
+	 *            the message id
 	 * @return the poll data
 	 */
 	public static PollData getPollData(String messageId) {
@@ -253,50 +262,17 @@ public class MySQL {
 			if (connection.isClosed()) {
 				connect();
 			}
-			PollData data = new PollData();
 			PreparedStatement ps = connection.prepareStatement("SELECT * FROM `poll` WHERE `messageid` = ?");
 			ps.setString(1, messageId);
 			ResultSet rs = ps.executeQuery();
 
 			if (rs.next()) {
-				data.setPollId(rs.getInt(1));
-				data.setUserId(rs.getString(2));
-				data.setMessageId(rs.getString(3));
-				data.setUsers(rs.getString(4));
-				data.setOpen(rs.getBoolean(5));
-
-				int[] options = new int[9];
-				for (int i = 0; i <= 8; i++) {
-					options[i] = rs.getInt(i + 6);
-				}
-				data.setOptions(options);
-				data.setTime(rs.getTimestamp(15).toLocalDateTime());
-				data.setChannelId(rs.getString(16));
+				return (setPollDatafromRS(rs));
 			}
-
-			return data;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	/**
-	 * Generate xp table.
-	 */
-	public static void generateXpTable() {
-		try {
-			if (connection.isClosed()) {
-				connect();
-			}
-			PreparedStatement ps = connection.prepareStatement(
-					"CREATE TABLE IF NOT EXISTS xp( `id` INT(11) NOT NULL AUTO_INCREMENT, `userid` VARCHAR(50) NOT NULL, "
-							+ "`totalxp` BIGINT(12) NOT NULL, `level` INT(11) NOT NULL, `notify` BOOLEAN NOT NULL, "
-							+ "PRIMARY KEY(`id`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
-			ps.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -307,24 +283,11 @@ public class MySQL {
 			if (connection.isClosed()) {
 				connect();
 			}
-
 			PreparedStatement ps = connection.prepareStatement("SELECT * FROM `poll`");
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
-				PollData data = new PollData();
-				data.setPollId(rs.getInt(1));
-				data.setUserId(rs.getString(2));
-				data.setMessageId(rs.getString(3));
-				data.setUsers(rs.getString(4));
-				data.setOpen(rs.getBoolean(5));
-				int[] options = new int[9];
-				for (int i = 0; i <= 8; i++) {
-					options[i] = rs.getInt(i + 6);
-				}
-				data.setOptions(options);
-				data.setTime(rs.getTimestamp(15).toLocalDateTime());
-				data.setChannelId(rs.getString(16));
+				PollData data = setPollDatafromRS(rs);
 
 				if (data.getTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 						- LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() > 0
@@ -344,7 +307,45 @@ public class MySQL {
 					data.saveToDb(data);
 				}
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
+	public static PollData setPollDatafromRS(ResultSet rs) {
+		PollData data = new PollData();
+		try {
+			data.setPollId(rs.getInt(1));
+			data.setUserId(rs.getString(2));
+			data.setMessageId(rs.getString(3));
+			data.setUsers(rs.getString(4));
+			data.setOpen(rs.getBoolean(5));
+			int[] options = new int[9];
+			for (int i = 0; i <= 8; i++) {
+				options[i] = rs.getInt(i + 6);
+			}
+			data.setOptions(options);
+			data.setTime(rs.getTimestamp(15).toLocalDateTime());
+			data.setChannelId(rs.getString(16));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
+
+	/**
+	 * Generate xp table.
+	 */
+	public static void generateXpTable() {
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+			PreparedStatement ps = connection.prepareStatement(
+					"CREATE TABLE IF NOT EXISTS xp( `id` INT(11) NOT NULL AUTO_INCREMENT, `userid` VARCHAR(50) NOT NULL, "
+							+ "`totalxp` BIGINT(12) NOT NULL, `level` INT(11) NOT NULL, `notify` BOOLEAN NOT NULL, "
+							+ "PRIMARY KEY(`id`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
+			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
