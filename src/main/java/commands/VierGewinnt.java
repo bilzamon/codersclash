@@ -3,6 +3,7 @@ package commands;
 import command.CommandHandler;
 import command.CommandManager;
 import core.Main;
+import listeners.VierGewinntListener;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.User;
@@ -37,11 +38,16 @@ public class VierGewinnt extends CommandHandler {
 
         if(heigh > 6 && heigh < 9) {
             if(width == heigh - 1) {
-                if(opponent == challenger.getName()) {
+                if(opponent != challenger.getName()) {
                     try {
 
                         jda.getUsersByName(opponent, true).get(0).openPrivateChannel().queue(privateChannel -> {
-                            privateChannel.sendMessage(challenger.getName() + " hat dich zu einer Runde Vier-Gewinnt(" + heigh + "x" + width + ") herausgefordert!").queue();
+                            privateChannel.sendMessage(challenger.getName() + " hat dich zu einer Runde Vier-Gewinnt(" + heigh + "x" + width + ") herausgefordert!").queue(message -> {
+                                message.addReaction("\u2705").queue();
+                                message.addReaction("\u274C").queue();
+
+                                //Hier soll dann die auslesen sein
+                            });
                         });
 
                     } catch(Exception exeception) {
