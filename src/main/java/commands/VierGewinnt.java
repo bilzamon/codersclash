@@ -3,8 +3,10 @@ package commands;
 import command.CommandHandler;
 import command.CommandManager;
 import core.Main;
+import listeners.VierGewinntListener;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import util.Settings;
@@ -52,6 +54,8 @@ public class VierGewinnt extends CommandHandler {
 							privateChannel.sendMessage(challenger.getName() + " hat dich zu einer Runde Vier-Gewinnt("
 									+ heigh + "x" + width + ") herausgefordert!").queue();
 						});
+
+						VierGewinntListener.readReaction(Hier muss das Event rein);
 
 					} catch (Exception exeception) {
 

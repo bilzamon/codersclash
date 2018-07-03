@@ -1,18 +1,14 @@
 package listeners;
 
-import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionAddEvent;
+import net.dv8tion.jda.core.events.message.priv.react.PrivateMessageReactionAddEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 public class VierGewinntListener extends ListenerAdapter {
 	
-	public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent event) {
-		System.out.println(readReaction(event));
-	}
 	
-	
-	public static int readReaction(GuildMessageReactionAddEvent guildMessageReactionAddEvent) {
-		String emoteName = guildMessageReactionAddEvent.getReactionEmote().getName();
-		System.out.println("test");
+	public static int readReaction(PrivateMessageReactionAddEvent privateMessageReactionAddEvent) {
+		String emoteName = privateMessageReactionAddEvent.getReactionEmote().getName();
+
 		switch (emoteName) {
 		case "✅":
 			return 1;
