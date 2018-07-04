@@ -46,6 +46,7 @@ public class MySQL {
 		generateReportTable();
 		generateReportCountTable();
 		generatePollTable();
+		generateVierGameTable();
 
 	}
 
@@ -333,6 +334,41 @@ public class MySQL {
 		return data;
 	}
 
+	public static GameData getGameData(String messageId) {
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM `viergame` WHERE `messageid` = ?");
+			ps.setString(1, messageId);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				return new GameData(rs.getString(1), rs.getString(2), rs.getString(3));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static void insertGameData(GameData game) {
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+			PreparedStatement ps = connection
+					.prepareStatement("INSERT INTO `viergame` (messageid,opponentid,challengerid) VALUES(?,?,?)");
+			ps.setString(1, game.getMessageId());
+			ps.setString(2, game.getOpponentId());
+			ps.setString(3, game.getChallengerId());
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Generate xp table.
 	 */
@@ -401,6 +437,24 @@ public class MySQL {
 							+ "`option7` VARCHAR(50) NOT NULL,`option8` VARCHAR(50) NOT NULL,`option9` VARCHAR(50) NOT NULL,"
 							+ "`time` TIMESTAMP NOT NULL,`channelId` VARCHAR(50) NOT NULL,"
 							+ "PRIMARY KEY(`pollid`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Generate four wins table.
+	 */
+	public static void generateVierGameTable() {
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+			PreparedStatement ps = connection
+					.prepareStatement("CREATE TABLE IF NOT EXISTS viergame ( `messageid` VARCHAR(50) NOT NULL, "
+							+ "`opponentid` VARCHAR(50) NOT NULL, `challengerid` VARCHAR(50) NOT NULL, "
+							+ "PRIMARY KEY(`messageid`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
