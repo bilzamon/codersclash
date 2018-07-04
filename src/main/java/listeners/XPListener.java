@@ -37,6 +37,10 @@ public class XPListener extends ListenerAdapter {
 		if (event.getMessage().getContentRaw().startsWith(Settings.PREFIX)) {
 			return;
 		}
+		
+		if(spamFilter.contains(event.getAuthor().getId())) {
+			return;
+		}
 
 		UserData data = UserData.fromId(event.getAuthor().getId());
 
@@ -56,6 +60,5 @@ public class XPListener extends ListenerAdapter {
 				spamFilter.remove(event.getAuthor().getId());
 			}
 		}, 1000 * 60);
-		
 	}
 }
