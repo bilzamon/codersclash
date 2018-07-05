@@ -3,22 +3,8 @@ package core;
 import javax.security.auth.login.LoginException;
 
 import command.CommandManager;
-import commands.AddUserToPrivateVoiceChannel;
-import commands.Clear;
-import commands.GuildInfo;
-import commands.Help;
-import commands.Mute;
-import commands.Ping;
-import commands.Report;
-import commands.Say;
-import commands.Stop;
-import commands.UnMute;
-import commands.UserInfo;
-import commands.VierGewinnt;
-import commands.Voting;
-import commands.xp.XP;
-import commands.xp.XPNotify;
-import commands.xp.XPrank;
+import commands.*;
+import commands.xp.*;
 import db.MySQL;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -105,7 +91,7 @@ public class Main {
 		return jda;
 	}
 
-	public static MySQL getSql() {
+	public static MySQL getSQL() {
 		return sql;
 	}
 	
