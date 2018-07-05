@@ -42,12 +42,12 @@ public class MySQL {
 			System.exit(0);
 		}
 		System.out.println("Connected to database successfully...");
+
 		generateXpTable();
 		generateReportTable();
 		generateReportCountTable();
 		generatePollTable();
 		generateVierGameTable();
-
 	}
 
 	/**

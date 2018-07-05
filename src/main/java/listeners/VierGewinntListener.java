@@ -1,5 +1,6 @@
 package listeners;
 
+import commands.VierGewinnt;
 import net.dv8tion.jda.core.events.message.priv.react.PrivateMessageReactionAddEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 

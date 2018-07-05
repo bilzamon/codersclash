@@ -3,10 +3,9 @@ package commands;
 import command.CommandHandler;
 import command.CommandManager;
 import core.Main;
-import listeners.VierGewinntListener;
+import db.GameData;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import util.Settings;
@@ -14,6 +13,7 @@ import util.Settings;
 public class VierGewinnt extends CommandHandler {
 
 	private JDA jda = Main.getJda();
+	private GameData gameData;
 
 	public VierGewinnt() {
 		super("vg", "vg", "");
@@ -48,14 +48,17 @@ public class VierGewinnt extends CommandHandler {
 		if (heigh > 6 && heigh < 9) {
 			if (width == heigh - 1) {
 				if (opponent == challenger.getName()) {
-					try {
+					//gameData.setMessageId();
+                    gameData.setOpponentId(event.getGuild().getMembersByName(opponent, true).get(0).getUser().getId());
+                    gameData.setChallengerId(challenger.getId());
+
+				    try {
 
 						jda.getUsersByName(opponent, true).get(0).openPrivateChannel().queue(privateChannel -> {
 							privateChannel.sendMessage(challenger.getName() + " hat dich zu einer Runde Vier-Gewinnt("
 									+ heigh + "x" + width + ") herausgefordert!").queue();
 						});
 
-						VierGewinntListener.readReaction(Hier muss das Event rein);
 
 					} catch (Exception exeception) {
 
