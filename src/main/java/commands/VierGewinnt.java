@@ -17,7 +17,7 @@ public class VierGewinnt extends CommandHandler {
 
 	public VierGewinnt() {
 		super("vg", "vg", "");
-		//TODO add parameter usage
+		// TODO add parameter usage
 	}
 
 	@Override
@@ -48,20 +48,19 @@ public class VierGewinnt extends CommandHandler {
 		if (heigh > 6 && heigh < 9) {
 			if (width == heigh - 1) {
 				if (opponent == challenger.getName()) {
-					//gameData.setMessageId();
-                    gameData.setOpponentId(event.getGuild().getMembersByName(opponent, true).get(0).getUser().getId());
-                    gameData.setChallengerId(challenger.getId());
+					gameData.setOpponentId(event.getGuild().getMembersByName(opponent, true).get(0).getUser().getId());
+					gameData.setChallengerId(challenger.getId());
 
-				    try {
+					try {
 
 						jda.getUsersByName(opponent, true).get(0).openPrivateChannel().queue(privateChannel -> {
 							privateChannel.sendMessage(challenger.getName() + " hat dich zu einer Runde Vier-Gewinnt("
-									+ heigh + "x" + width + ") herausgefordert!").queue();
+									+ heigh + "x" + width + ") herausgefordert!").queue(msg -> {
+										gameData.setMessageId(msg.getId());
+									});
 						});
 
-
 					} catch (Exception exeception) {
-
 						exeception.printStackTrace();
 					}
 				} else {
