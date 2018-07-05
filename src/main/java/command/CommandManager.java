@@ -19,7 +19,8 @@ public class CommandManager extends ListenerAdapter {
 	public void onMessageReceived(MessageReceivedEvent event) {
 		ParsedCommandString parsedMessage = parse(event.getMessage().getContentRaw());
 
-		if (!event.getAuthor().isBot() && !event.getAuthor().isFake() && parsedMessage != null && event.getChannelType().isGuild()) {
+		if (!event.getAuthor().isBot() && !event.getAuthor().isFake() && parsedMessage != null
+				&& event.getChannelType().isGuild()) {
 			CommandHandler commandHandler = commandAssociations.get(parsedMessage.getCommand());
 
 			if (commandHandler != null) {
@@ -55,6 +56,10 @@ public class CommandManager extends ListenerAdapter {
 	 */
 	public CommandHandler getCommandHandler(String invocationAlias) {
 		return commandAssociations.get(invocationAlias.toLowerCase());
+	}
+
+	public HashMap<String, CommandHandler> getCommandassociations() {
+		return commandAssociations;
 	}
 
 	/**

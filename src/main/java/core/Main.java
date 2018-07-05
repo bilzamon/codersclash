@@ -3,7 +3,19 @@ package core;
 import javax.security.auth.login.LoginException;
 
 import command.CommandManager;
-import commands.*;
+import commands.AddUserToPrivateVoiceChannel;
+import commands.Clear;
+import commands.GuildInfo;
+import commands.Help;
+import commands.Mute;
+import commands.Ping;
+import commands.Report;
+import commands.Say;
+import commands.Stop;
+import commands.UnMute;
+import commands.UserInfo;
+import commands.VierGewinnt;
+import commands.Voting;
 import commands.xp.XP;
 import commands.xp.XPNotify;
 import commands.xp.XPrank;
@@ -23,6 +35,8 @@ public class Main {
 
 	private static MySQL sql;
 
+	private static CommandManager commandManager;
+
 	/**
 	 * Instantiates a new main.
 	 */
@@ -33,9 +47,9 @@ public class Main {
 
 		initJDA();
 
-		CommandManager commandManager = new CommandManager();
+		commandManager = new CommandManager();
 		initCommandHandlers(commandManager);
-		
+
 		MySQL.loadPollTimer();
 	}
 
@@ -61,6 +75,7 @@ public class Main {
 		commandManager.setupCommandHandlers(new XPNotify());
 		commandManager.setupCommandHandlers(new AddUserToPrivateVoiceChannel());
 		commandManager.setupCommandHandlers(new VierGewinnt());
+		commandManager.setupCommandHandlers(new Help());
 	}
 
 	/**
@@ -92,6 +107,10 @@ public class Main {
 
 	public static MySQL getSql() {
 		return sql;
+	}
+	
+	public static CommandManager getCommandManager() {
+		return commandManager;
 	}
 
 	/**
