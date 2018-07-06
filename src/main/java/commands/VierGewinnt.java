@@ -4,6 +4,8 @@ import command.CommandHandler;
 import command.CommandManager;
 import core.Main;
 import db.GameData;
+import db.MySQL;
+import listeners.VierGewinntListener;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.User;
@@ -47,7 +49,7 @@ public class VierGewinnt extends CommandHandler {
 
 		if (heigh > 6 && heigh < 9) {
 			if (width == heigh - 1) {
-				if (opponent == challenger.getName()) {
+				if (opponent != challenger.getName()) {
 					gameData.setOpponentId(event.getGuild().getMembersByName(opponent, true).get(0).getUser().getId());
 					gameData.setChallengerId(challenger.getId());
 
@@ -59,6 +61,8 @@ public class VierGewinnt extends CommandHandler {
 										gameData.setMessageId(msg.getId());
 									});
 						});
+
+						MySQL.insertGameData(gameData);
 
 					} catch (Exception exeception) {
 						exeception.printStackTrace();
