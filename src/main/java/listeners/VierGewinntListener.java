@@ -6,7 +6,6 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 public class VierGewinntListener extends ListenerAdapter {
 
-
 	public static int readReaction(PrivateMessageReactionAddEvent privateMessageReactionAddEvent) {
 		if(MySQL.getGameData(privateMessageReactionAddEvent.getMessageId()) != null){
 

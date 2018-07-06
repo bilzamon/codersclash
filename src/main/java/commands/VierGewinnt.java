@@ -1,11 +1,10 @@
 package commands;
 
 import command.CommandHandler;
-import command.CommandManager;
+import command.CommandManager.ParsedCommandString;
 import core.Main;
 import db.GameData;
 import db.MySQL;
-import listeners.VierGewinntListener;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.User;
@@ -15,7 +14,6 @@ import util.Settings;
 public class VierGewinnt extends CommandHandler {
 
 	private JDA jda = Main.getJda();
-	private GameData gameData;
 
 	public VierGewinnt() {
 		super("vg", "vg", "");
@@ -23,7 +21,7 @@ public class VierGewinnt extends CommandHandler {
 	}
 
 	@Override
-	public void execute(CommandManager.ParsedCommandString parsedCommand, MessageReceivedEvent event) {
+	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
 		String[] args = parsedCommand.getArgs();
 		int heigh = Integer.parseInt(args[0]);
 		int width = Integer.parseInt(args[1]);
@@ -35,6 +33,7 @@ public class VierGewinnt extends CommandHandler {
 
 			event.getTextChannel().sendMessage(error.setDescription("Bitte benutze den Befehl so: " + Settings.PREFIX
 					+ "vg <Höhe(7-8)> <Breite(Um 1 kleiner als Höhe)> <Gegenspieler>").build()).queue();
+			return;
 		}
 
 		if (event.getGuild().getMembersByName(opponent, true).get(0).getOnlineStatus() != OnlineStatus.ONLINE) {
@@ -45,46 +44,40 @@ public class VierGewinnt extends CommandHandler {
 									"Der User " + opponent + " konnte nicht gefunden werden oder ist nicht online!")
 							.build())
 					.queue();
+			return;
 		}
 
 		if (heigh > 6 && heigh < 9) {
 			if (width == heigh - 1) {
-				if (opponent != challenger.getName()) {
+				if (!opponent.equals(challenger.getName())) {
+					System.out.println(opponent + " " + challenger.getName());
+					GameData gameData = new GameData();
 					gameData.setOpponentId(event.getGuild().getMembersByName(opponent, true).get(0).getUser().getId());
 					gameData.setChallengerId(challenger.getId());
 
-					try {
-
-						jda.getUsersByName(opponent, true).get(0).openPrivateChannel().queue(privateChannel -> {
-							privateChannel.sendMessage(challenger.getName() + " hat dich zu einer Runde Vier-Gewinnt("
-									+ heigh + "x" + width + ") herausgefordert!").queue(msg -> {
-										gameData.setMessageId(msg.getId());
-									});
-						});
-
-						MySQL.insertGameData(gameData);
-
-					} catch (Exception exeception) {
-						exeception.printStackTrace();
-					}
+					jda.getUsersByName(opponent, true).get(0).openPrivateChannel().queue(privateChannel -> {
+						privateChannel.sendMessage(challenger.getName() + " hat dich zu einer Runde Vier-Gewinnt("
+								+ heigh + "x" + width + ") herausgefordert!").queue(msg -> {
+									gameData.setMessageId(msg.getId());
+									MySQL.insertGameData(gameData);
+								});
+					});
 				} else {
-
 					event.getTextChannel()
 							.sendMessage(error.setDescription("Du kannst dich nicht selbst herausfordern!").build())
 							.queue();
+					return;
 				}
-
 			} else {
-
 				event.getTextChannel()
 						.sendMessage(error.setDescription("Die Breite muss um 1 kleiner sein als die Höhe!").build())
 						.queue();
+				return;
 			}
-
 		} else {
-
 			event.getTextChannel().sendMessage(error.setDescription("Die Höhe muss zwischen 7 und 8 liegen!").build())
 					.queue();
+			return;
 		}
 	}
 }

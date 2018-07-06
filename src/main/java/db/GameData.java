@@ -5,12 +5,6 @@ public class GameData {
 	private String opponentId;
 	private String challengerId;
 
-	public GameData(String messageId, String opponentId, String challengerId) {
-		this.messageId = messageId;
-		this.opponentId = opponentId;
-		this.challengerId = challengerId;
-	}
-
 	public String getMessageId() {
 		return messageId;
 	}

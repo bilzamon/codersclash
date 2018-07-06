@@ -344,7 +344,11 @@ public class MySQL {
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
-				return new GameData(rs.getString(1), rs.getString(2), rs.getString(3));
+				GameData data = new GameData();
+				data.setMessageId(rs.getString(1));
+				data.setOpponentId(rs.getString(2));
+				data.setChallengerId(rs.getString(3));
+				return data;
 			}
 
 		} catch (SQLException e) {
