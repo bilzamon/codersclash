@@ -2,6 +2,7 @@ package command;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -71,7 +72,7 @@ public class CommandManager extends ListenerAdapter {
 	 */
 	private ParsedCommandString parse(String message) {
 		if (message.startsWith(Settings.PREFIX)) {
-			String beheaded = message.replaceFirst("\\" + Settings.PREFIX, "");
+			String beheaded = message.replaceFirst(Pattern.quote(Settings.PREFIX), "");
 			String[] args = beheaded.split("\\s+");
 			String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
 			return new ParsedCommandString(args[0], newArgs);
