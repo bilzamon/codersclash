@@ -18,7 +18,11 @@ public class VotingListener extends ListenerAdapter {
 		String emoteName = event.getReactionEmote().getName();
 		
 		PollData pData = new PollData().getDbData(event.getMessageId());
-
+		
+		if(pData == null) {
+			return;
+		}
+		
 		if (!pData.isOpen() || pData.getMessageId() == null) {
 			return;
 		}
