@@ -21,7 +21,7 @@ public class VierGewinnt extends CommandHandler {
 	}
 
 	@Override
-	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) {
+	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) throws ArrayIndexOutOfBoundsException, IndexOutOfBoundsException {
 		String[] args = parsedCommand.getArgs();
 		int heigh = Integer.parseInt(args[0]);
 		int width = Integer.parseInt(args[1]);
@@ -49,7 +49,7 @@ public class VierGewinnt extends CommandHandler {
 
 		if (heigh > 6 && heigh < 9) {
 			if (width == heigh - 1) {
-				if (!opponent.equals(challenger.getName())) {
+				if (opponent.toLowerCase().equals(challenger.getName().toLowerCase())) {
 					System.out.println(opponent + " " + challenger.getName());
 					GameData gameData = new GameData();
 					gameData.setOpponentId(event.getGuild().getMembersByName(opponent, true).get(0).getUser().getId());
@@ -58,6 +58,8 @@ public class VierGewinnt extends CommandHandler {
 					jda.getUsersByName(opponent, true).get(0).openPrivateChannel().queue(privateChannel -> {
 						privateChannel.sendMessage(challenger.getName() + " hat dich zu einer Runde Vier-Gewinnt("
 								+ heigh + "x" + width + ") herausgefordert!").queue(msg -> {
+									msg.addReaction("✅").queue();
+									msg.addReaction("❌").queue();
 									gameData.setMessageId(msg.getId());
 									MySQL.insertGameData(gameData);
 								});

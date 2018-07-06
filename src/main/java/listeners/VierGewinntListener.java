@@ -6,13 +6,17 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 public class VierGewinntListener extends ListenerAdapter {
 
-	public static int readReaction(PrivateMessageReactionAddEvent privateMessageReactionAddEvent) {
+	@Override
+	public void onPrivateMessageReactionAdd(PrivateMessageReactionAddEvent privateMessageReactionAddEvent) {
 		if(MySQL.getGameData(privateMessageReactionAddEvent.getMessageId()) != null){
+			if(!privateMessageReactionAddEvent.getUser().isBot()) {
 
-			privateMessageReactionAddEvent.getChannel().sendMessage("Gültig!").queue();
-			return 1;
+				privateMessageReactionAddEvent.getChannel().sendMessage("Gültig").queue();
+
+			} else {
+
+				privateMessageReactionAddEvent.getChannel().sendMessage("Ungültig").queue();
+			}
 		}
-		privateMessageReactionAddEvent.getChannel().sendMessage("Ungültig!").queue();
-		return 0;
 	}
 }
