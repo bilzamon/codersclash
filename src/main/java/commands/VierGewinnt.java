@@ -49,8 +49,8 @@ public class VierGewinnt extends CommandHandler {
 
 		if (heigh > 6 && heigh < 9) {
 			if (width == heigh - 1) {
-				if (opponent.toLowerCase().equals(challenger.getName().toLowerCase())) {
-					System.out.println(opponent.toLowerCase() + " vs. " + challenger.getName().toLowerCase());
+				if (!opponent.toLowerCase().equals(challenger.getName().toLowerCase())) {
+					System.out.println(challenger.getName().toLowerCase() + " vs. " + opponent.toLowerCase());
 					GameData gameData = new GameData();
 					gameData.setOpponentId(event.getGuild().getMembersByName(opponent, true).get(0).getUser().getId());
 					gameData.setChallengerId(challenger.getId());

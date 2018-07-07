@@ -4,12 +4,15 @@ import core.Main;
 import db.GameData;
 import db.MySQL;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.priv.react.PrivateMessageReactionAddEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.awt.*;
 
 public class VierGewinntListener extends ListenerAdapter {
+
+	private static JDA jda = Main.getJda();
 
 	@Override
 	public void onPrivateMessageReactionAdd(PrivateMessageReactionAddEvent privateMessageReactionAddEvent) {
@@ -37,6 +40,8 @@ public class VierGewinntListener extends ListenerAdapter {
 						privateMessageReactionAddEvent.getChannel().sendMessage(new EmbedBuilder().setColor(Color.HSBtoRGB(85, 1, 100))
 								.setDescription("Spielanfrage abgelehnt!").build())
 								.complete();
+
+						closeGame(gameData);
 						break;
 				}
 			}
@@ -44,4 +49,11 @@ public class VierGewinntListener extends ListenerAdapter {
 	}
 
 	private static void startGame(GameData gameData) {}
+
+	private static void closeGame(GameData gameData) {
+		jda.getUserById().openPrivateChannel().queue(privateChannel -> {
+			privateChannel.sendMessage(jda.getUserById("225327305570910208").getName() + " hat deine Spielanfrage abgelehnt!").queue();
+		});
+
+	}
 }
