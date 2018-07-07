@@ -11,7 +11,7 @@ import java.awt.*;
 public abstract class CommandHandler {
 
 	/** The error. */
-	public static EmbedBuilder error = new EmbedBuilder().setColor(Color.RED);
+	public static EmbedBuilder error = new EmbedBuilder().setColor(Color.HSBtoRGB(85, 1, 100));
 	
 	/** The invoke string. */
 	private String invokeString;

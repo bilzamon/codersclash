@@ -1,2 +1,9 @@
 Manifest-Version: 1.0
+Class-Path: slf4j-simple-1.7.25.jar trove4j-3.0.1.jar json-20160810.ja
+ r nv-websocket-client-2.2.jar jsr305-3.0.2.jar protobuf-java-2.6.0.ja
+ r okio-1.13.0.jar jna-4.4.0.jar okhttp-3.8.1.jar JDA-3.6.0_376.jar sl
+ f4j-api-1.7.25.jar opus-java-natives-1.0.2.jar opus-java-api-1.0.2.ja
+ r opus-java-1.0.2.jar mysql-connector-java-8.0.11.jar commons-collect
+ ions4-4.1.jar
 Main-Class: core.Main
+

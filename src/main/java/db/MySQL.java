@@ -458,6 +458,7 @@ public class MySQL {
 			PreparedStatement ps = connection
 					.prepareStatement("CREATE TABLE IF NOT EXISTS viergame ( `messageid` VARCHAR(50) NOT NULL, "
 							+ "`opponentid` VARCHAR(50) NOT NULL, `challengerid` VARCHAR(50) NOT NULL, "
+							+ "`heigh` INT(1) NOT NULL,`width` INT(1) NOT NULL,"
 							+ "PRIMARY KEY(`messageid`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
 			ps.execute();
 		} catch (SQLException e) {
