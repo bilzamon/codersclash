@@ -5,6 +5,9 @@ public class GameData {
 	private String opponentId;
 	private String challengerId;
 
+	private int heigh;
+	private int width;
+
 	public String getMessageId() {
 		return messageId;
 	}
@@ -27,6 +30,22 @@ public class GameData {
 
 	public void setChallengerId(String challengerId) {
 		this.challengerId = challengerId;
+	}
+
+	public int getHeigh() {
+		return heigh;
+	}
+
+	public void setHeigh(String challengerId) {
+		this.heigh = heigh;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(String challengerId) {
+		this.width = width;
 	}
 
 }
