@@ -348,8 +348,8 @@ public class MySQL {
 				data.setMessageId(rs.getString(1));
 				data.setOpponentId(rs.getString(2));
 				data.setChallengerId(rs.getString(3));
-				data.setHeigh(rs.getString(4));
-				data.setWidth(rs.getString(5));
+				data.setHeigh(rs.getInt(4));
+				data.setWidth(rs.getInt(5));
 				return data;
 			}
 
@@ -364,13 +364,13 @@ public class MySQL {
 			if (connection.isClosed()) {
 				connect();
 			}
-			PreparedStatement ps = connection
-					.prepareStatement("INSERT INTO `viergame` (messageid,opponentid,challengerid) VALUES(?,?,?,?,?)");
+			PreparedStatement ps = connection.prepareStatement(
+					"INSERT INTO `viergame` (messageid,opponentid,challengerid,heigh,width) VALUES(?,?,?,?,?)");
 			ps.setString(1, game.getMessageId());
 			ps.setString(2, game.getOpponentId());
 			ps.setString(3, game.getChallengerId());
-			ps.setInt(4,game.getHeigh());
-			ps.setInt(5,game.getWidth());
+			ps.setInt(4, game.getHeigh());
+			ps.setInt(5, game.getWidth());
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -36,7 +36,7 @@ public class GameData {
 		return heigh;
 	}
 
-	public void setHeigh(String challengerId) {
+	public void setHeigh(int heigh) {
 		this.heigh = heigh;
 	}
 
@@ -44,7 +44,7 @@ public class GameData {
 		return width;
 	}
 
-	public void setWidth(String challengerId) {
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
