@@ -23,18 +23,19 @@ public class VierGewinnt extends CommandHandler {
 	@Override
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) throws ArrayIndexOutOfBoundsException, IndexOutOfBoundsException {
 		String[] args = parsedCommand.getArgs();
-		int heigh = Integer.parseInt(args[0]);
-		int width = Integer.parseInt(args[1]);
-
-		User challenger = event.getAuthor();
-		String opponent = args[2];
-
+		
 		if (args.length < 3) {
 
 			event.getTextChannel().sendMessage(error.setDescription("Bitte benutze den Befehl so: " + Settings.PREFIX
 					+ "vg <Höhe(7-8)> <Breite(Um 1 kleiner als Höhe)> <Gegenspieler>").build()).queue();
 			return;
 		}
+		
+		int heigh = Integer.parseInt(args[0]);
+		int width = Integer.parseInt(args[1]);
+
+		User challenger = event.getAuthor();
+		String opponent = args[2];
 
 		if (event.getGuild().getMembersByName(opponent, true).get(0).getOnlineStatus() != OnlineStatus.ONLINE) {
 

@@ -1,5 +1,7 @@
 package listeners;
 
+import java.awt.Color;
+
 import core.Main;
 import db.GameData;
 import db.MySQL;
@@ -8,52 +10,54 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.priv.react.PrivateMessageReactionAddEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
-import java.awt.*;
-
 public class VierGewinntListener extends ListenerAdapter {
 
-	private static JDA jda = Main.getJda();
+	private static JDA jda;
 
 	@Override
 	public void onPrivateMessageReactionAdd(PrivateMessageReactionAddEvent privateMessageReactionAddEvent) {
-		if(MySQL.getGameData(privateMessageReactionAddEvent.getMessageId()) != null) {
-			if(!privateMessageReactionAddEvent.getUser().isBot()) {
+		jda = Main.getJda();
+		if (MySQL.getGameData(privateMessageReactionAddEvent.getMessageId()) != null) {
+			if (!privateMessageReactionAddEvent.getUser().isBot()) {
 				GameData gameData = MySQL.getGameData(privateMessageReactionAddEvent.getMessageId());
 				String emoteName = privateMessageReactionAddEvent.getReactionEmote().getName();
 
-				Main.getJda().getPrivateChannelById(privateMessageReactionAddEvent.getChannel().getId())
+				jda.getPrivateChannelById(privateMessageReactionAddEvent.getChannel().getId())
 						.deleteMessageById(privateMessageReactionAddEvent.getReaction().getMessageId()).queue();
 
 				switch (emoteName) {
 
-					case "✅":
+				case "✅":
 
-						privateMessageReactionAddEvent.getChannel().sendMessage(new EmbedBuilder().setColor(Color.DARK_GRAY)
-								.setDescription("Spiel wird vorbereitet...").build())
-								.complete();
+					privateMessageReactionAddEvent.getChannel().sendMessage(new EmbedBuilder().setColor(Color.DARK_GRAY)
+							.setDescription("Spiel wird vorbereitet...").build()).complete();
 
-						startGame(gameData);
-						break;
+					startGame(gameData);
+					break;
 
-					case "❌":
+				case "❌":
 
-						privateMessageReactionAddEvent.getChannel().sendMessage(new EmbedBuilder().setColor(Color.HSBtoRGB(85, 1, 100))
-								.setDescription("Spielanfrage abgelehnt!").build())
-								.complete();
+					privateMessageReactionAddEvent.getChannel().sendMessage(new EmbedBuilder()
+							.setColor(Color.HSBtoRGB(85, 1, 100)).setDescription("Spielanfrage abgelehnt!").build())
+							.complete();
 
-						closeGame(gameData);
-						break;
+					closeGame(gameData);
+					break;
 				}
 			}
 		}
 	}
 
-	private static void startGame(GameData gameData) {}
+	private static void startGame(GameData gameData) {
+	}
 
 	private static void closeGame(GameData gameData) {
-		jda.getUserById().openPrivateChannel().queue(privateChannel -> {
-			privateChannel.sendMessage(jda.getUserById("225327305570910208").getName() + " hat deine Spielanfrage abgelehnt!").queue();
+		jda.getUserById(gameData.getChallengerId()).openPrivateChannel().queue(privateChannel -> {
+			System.out.println("test");
+			privateChannel
+					.sendMessage(
+							jda.getUserById(gameData.getOpponentId()).getName() + " hat deine Spielanfrage abgelehnt!")
+					.queue();
 		});
-
 	}
 }
