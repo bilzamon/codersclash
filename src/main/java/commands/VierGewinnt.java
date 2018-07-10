@@ -54,6 +54,8 @@ public class VierGewinnt extends CommandHandler {
 					GameData gameData = new GameData();
 					gameData.setOpponentId(event.getGuild().getMembersByName(opponent, true).get(0).getUser().getId());
 					gameData.setChallengerId(challenger.getId());
+					gameData.setHeigh(heigh);
+					gameData.setWidth(width);
 
 					jda.getUsersByName(opponent, true).get(0).openPrivateChannel().queue(privateChannel -> {
 						privateChannel.sendMessage(challenger.getName() + " hat dich zu einer Runde Vier-Gewinnt("
