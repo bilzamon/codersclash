@@ -13,7 +13,7 @@ import util.Settings;
 
 public class VierGewinnt extends CommandHandler {
 
-	private JDA jda = Main.getJda();
+	private static JDA jda;
 
 	public VierGewinnt() {
 		super("vg", "vg", "");
@@ -27,12 +27,12 @@ public class VierGewinnt extends CommandHandler {
 		if (args.length < 3) {
 
 			event.getTextChannel().sendMessage(error.setDescription("Bitte benutze den Befehl so: " + Settings.PREFIX
-					+ "vg <Höhe(7-8)> <Breite(Um 1 kleiner als Höhe)> <Gegenspieler>").build()).queue();
+					+ "vg <Breite(7-8)> <Höhe(Um 1 kleiner als die Breite)> <Gegenspieler>").build()).queue();
 			return;
 		}
-		
-		int heigh = Integer.parseInt(args[0]);
-		int width = Integer.parseInt(args[1]);
+
+		int width = Integer.parseInt(args[0]);
+		int heigh = Integer.parseInt(args[1]);
 
 		User challenger = event.getAuthor();
 		String opponent = args[2];
@@ -48,9 +48,9 @@ public class VierGewinnt extends CommandHandler {
 			return;
 		}
 
-		if (heigh > 6 && heigh < 9) {
-			if (width == heigh - 1) {
-				if (!opponent.toLowerCase().equals(challenger.getName().toLowerCase())) {
+		if (width > 6 && width < 9) {
+			if (heigh == width - 1) {
+				if (opponent.toLowerCase().equals(challenger.getName().toLowerCase())) {
 					System.out.println(challenger.getName().toLowerCase() + " vs. " + opponent.toLowerCase());
 					GameData gameData = new GameData();
 					gameData.setOpponentId(event.getGuild().getMembersByName(opponent, true).get(0).getUser().getId());
@@ -75,14 +75,45 @@ public class VierGewinnt extends CommandHandler {
 				}
 			} else {
 				event.getTextChannel()
-						.sendMessage(error.setDescription("Die Breite muss um 1 kleiner sein als die Höhe!").build())
+						.sendMessage(error.setDescription("Die Höhe muss um 1 kleiner sein als die Breite!").build())
 						.queue();
 				return;
 			}
 		} else {
-			event.getTextChannel().sendMessage(error.setDescription("Die Höhe muss zwischen 7 und 8 liegen!").build())
+			event.getTextChannel().sendMessage(error.setDescription("Die Breite muss zwischen 7 und 8 liegen!").build())
 					.queue();
 			return;
 		}
+	}
+
+	public static void createGame(GameData gameData, int heigh, int width) {
+		String fieldheigh = "", fieldwidth = "", nullfield = "";
+
+		for(int i = 0; i < width; i++) {
+
+			nullfield += "○ ";
+		}
+
+		fieldwidth = fieldwidth + nullfield + "\n";
+		nullfield = "";
+
+		for(int i = 0; i < heigh; i++) {
+
+			fieldheigh += fieldwidth;
+		}
+
+		final String field = fieldheigh;
+
+		jda.getUserById(gameData.getChallengerId()).openPrivateChannel().queue(privateChannel -> {
+			privateChannel
+					.sendMessage(field)
+					.queue();
+		});
+
+		jda.getUserById(gameData.getOpponentId()).openPrivateChannel().queue(privateChannel -> {
+			privateChannel
+					.sendMessage(field)
+					.queue();
+		});
 	}
 }

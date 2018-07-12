@@ -2,6 +2,7 @@ package listeners;
 
 import java.awt.Color;
 
+import commands.VierGewinnt;
 import core.Main;
 import db.GameData;
 import db.MySQL;
@@ -30,7 +31,8 @@ public class VierGewinntListener extends ListenerAdapter {
 				case "✅":
 
 					privateMessageReactionAddEvent.getChannel().sendMessage(new EmbedBuilder().setColor(Color.DARK_GRAY)
-							.setDescription("Spiel wird vorbereitet...").build()).complete();
+							.setDescription("Spiel wird vorbereitet...").build())
+							.complete();
 
 					startGame(gameData);
 					break;
@@ -49,15 +51,21 @@ public class VierGewinntListener extends ListenerAdapter {
 	}
 
 	private static void startGame(GameData gameData) {
+		jda.getUserById(gameData.getChallengerId()).openPrivateChannel().queue(privateChannel -> {
+			privateChannel
+					.sendMessage(jda.getUserById(gameData.getOpponentId()).getName() + " hat deine Spielanfrage angenommen und eine Spielinstanz wird erstellt!")
+					.queue();
+		});
+
+		int heigh = gameData.getHeigh();
+		int width = gameData.getWidth();
+
+		VierGewinnt.createGame(gameData, heigh, width);
 	}
 
 	private static void closeGame(GameData gameData) {
 		jda.getUserById(gameData.getChallengerId()).openPrivateChannel().queue(privateChannel -> {
-			System.out.println("test");
-			privateChannel
-					.sendMessage(
-							jda.getUserById(gameData.getOpponentId()).getName() + " hat deine Spielanfrage abgelehnt!")
-					.queue();
+			privateChannel.sendMessage(jda.getUserById(gameData.getOpponentId()).getName() + " hat deine Spielanfrage abgelehnt!").queue();
 		});
 	}
 }
