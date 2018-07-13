@@ -16,7 +16,7 @@ public class VierGewinnt extends CommandHandler {
 	private static JDA jda;
 
 	public VierGewinnt() {
-		super("vg", "vg", "");
+		super("vg", "vg Breite Höhe Gegenspieler", "Vier gewinntt");
 		// TODO add parameter usage
 	}
 
