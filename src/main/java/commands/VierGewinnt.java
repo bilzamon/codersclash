@@ -7,6 +7,7 @@ import db.GameData;
 import db.MySQL;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import util.Settings;
@@ -22,6 +23,7 @@ public class VierGewinnt extends CommandHandler {
 
 	@Override
 	public void execute(ParsedCommandString parsedCommand, MessageReceivedEvent event) throws ArrayIndexOutOfBoundsException, IndexOutOfBoundsException {
+		jda = Main.getJda();
 		String[] args = parsedCommand.getArgs();
 		
 		if (args.length < 3) {
@@ -91,7 +93,7 @@ public class VierGewinnt extends CommandHandler {
 
 		for(int i = 0; i < width; i++) {
 
-			nullfield += "○ ";
+			nullfield += ":white_circle: ";
 		}
 
 		fieldwidth = fieldwidth + nullfield + "\n";
@@ -105,15 +107,54 @@ public class VierGewinnt extends CommandHandler {
 		final String field = fieldheigh;
 
 		jda.getUserById(gameData.getChallengerId()).openPrivateChannel().queue(privateChannel -> {
-			privateChannel
-					.sendMessage(field)
-					.queue();
+			privateChannel.sendMessage(field).queue(msg -> {
+
+				if(gameData.getWidth() == 8) {
+
+					addReaction8(msg);
+
+				} else {
+
+					addReaction7(msg);
+				}
+			});
 		});
 
 		jda.getUserById(gameData.getOpponentId()).openPrivateChannel().queue(privateChannel -> {
-			privateChannel
-					.sendMessage(field)
-					.queue();
+			privateChannel.sendMessage(field).queue(msg -> {
+
+				if(gameData.getWidth() == 8) {
+
+					addReaction8(msg);
+
+				} else {
+
+					addReaction7(msg);
+				}
+			});
 		});
+	}
+
+	private static void addReaction7(Message message) {
+
+		message.addReaction("1⃣").queue();
+		message.addReaction("2⃣").queue();
+		message.addReaction("3⃣").queue();
+		message.addReaction("4⃣").queue();
+		message.addReaction("5⃣").queue();
+		message.addReaction("6⃣").queue();
+		message.addReaction("7⃣").queue();
+	}
+
+	private static void addReaction8(Message message) {
+
+		message.addReaction("1⃣").queue();
+		message.addReaction("2⃣").queue();
+		message.addReaction("3⃣").queue();
+		message.addReaction("4⃣").queue();
+		message.addReaction("5⃣").queue();
+		message.addReaction("6⃣").queue();
+		message.addReaction("7⃣").queue();
+		message.addReaction("8⃣").queue();
 	}
 }
