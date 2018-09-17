@@ -3,8 +3,22 @@ package core;
 import javax.security.auth.login.LoginException;
 
 import command.CommandManager;
-import commands.*;
-import commands.xp.*;
+import commands.AddUserToPrivateVoiceChannel;
+import commands.Clear;
+import commands.ConnectFour;
+import commands.GuildInfo;
+import commands.Help;
+import commands.Mute;
+import commands.Ping;
+import commands.Report;
+import commands.Say;
+import commands.Stop;
+import commands.UnMute;
+import commands.UserInfo;
+import commands.Voting;
+import commands.xp.XP;
+import commands.xp.XPNotify;
+import commands.xp.XPrank;
 import db.MySQL;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -60,8 +74,9 @@ public class Main {
 		commandManager.setupCommandHandlers(new UnMute());
 		commandManager.setupCommandHandlers(new XPNotify());
 		commandManager.setupCommandHandlers(new AddUserToPrivateVoiceChannel());
-		commandManager.setupCommandHandlers(new VierGewinnt());
+		//commandManager.setupCommandHandlers(new VierGewinnt());
 		commandManager.setupCommandHandlers(new Help());
+		commandManager.setupCommandHandlers(new ConnectFour());
 	}
 
 	/**

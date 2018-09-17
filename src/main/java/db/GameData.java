@@ -4,7 +4,8 @@ public class GameData {
 	private String messageId;
 	private String opponentId;
 	private String challengerId;
-
+	private String channelId;
+	
 	private int heigh;
 	private int width;
 
@@ -46,6 +47,14 @@ public class GameData {
 
 	public void setWidth(int width) {
 		this.width = width;
+	}
+
+	public void setChannel(String id) {
+		this.channelId = id;
+	}
+	
+	public String getChannelId() {
+		return channelId;
 	}
 
 }

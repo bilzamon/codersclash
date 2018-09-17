@@ -14,6 +14,7 @@ import java.util.List;
 
 import commands.Voting;
 import core.Main;
+import game.ConnectFourModel;
 import net.dv8tion.jda.core.EmbedBuilder;
 import util.Settings;
 
@@ -48,6 +49,7 @@ public class MySQL {
 		generateReportCountTable();
 		generatePollTable();
 		generateVierGameTable();
+		generateGameTable();
 	}
 
 	/**
@@ -74,8 +76,7 @@ public class MySQL {
 	/**
 	 * Save user data.
 	 *
-	 * @param data
-	 *            the data
+	 * @param data the data
 	 */
 	public static void saveUserData(UserData data) {
 		try {
@@ -98,8 +99,7 @@ public class MySQL {
 	/**
 	 * Load from id.
 	 *
-	 * @param userId
-	 *            the user id
+	 * @param userId the user id
 	 * @return the user data
 	 */
 	public static UserData loadFromId(String userId) {
@@ -152,10 +152,8 @@ public class MySQL {
 	/**
 	 * Insert report.
 	 *
-	 * @param userId
-	 *            the user id
-	 * @param reason
-	 *            the reason
+	 * @param userId the user id
+	 * @param reason the reason
 	 */
 	public static void insertReport(String userId, String reason) {
 		try {
@@ -174,10 +172,8 @@ public class MySQL {
 	/**
 	 * Insert report count.
 	 *
-	 * @param userId
-	 *            the user id
-	 * @param count
-	 *            the count
+	 * @param userId the user id
+	 * @param count  the count
 	 */
 	public static void insertReportCount(String userId, int count) {
 		try {
@@ -196,8 +192,7 @@ public class MySQL {
 	/**
 	 * Load report count.
 	 *
-	 * @param userId
-	 *            the user id
+	 * @param userId the user id
 	 * @return the int
 	 */
 	public static int loadReportCount(String userId) {
@@ -220,8 +215,7 @@ public class MySQL {
 	/**
 	 * Save poll data.
 	 *
-	 * @param data
-	 *            the data
+	 * @param data the data
 	 */
 	public static void savePollData(PollData data) {
 		try {
@@ -254,8 +248,7 @@ public class MySQL {
 	/**
 	 * Gets the poll data.
 	 *
-	 * @param messageId
-	 *            the message id
+	 * @param messageId the message id
 	 * @return the poll data
 	 */
 	public static PollData getPollData(String messageId) {
@@ -350,6 +343,7 @@ public class MySQL {
 				data.setChallengerId(rs.getString(3));
 				data.setHeigh(rs.getInt(4));
 				data.setWidth(rs.getInt(5));
+				data.setChannel(rs.getString(6));
 				return data;
 			}
 
@@ -365,12 +359,13 @@ public class MySQL {
 				connect();
 			}
 			PreparedStatement ps = connection.prepareStatement(
-					"INSERT INTO `viergame` (messageid,opponentid,challengerid,heigh,width) VALUES(?,?,?,?,?)");
+					"INSERT INTO `viergame` (messageid,opponentid,challengerid,heigh,width,channelid) VALUES(?,?,?,?,?,?)");
 			ps.setString(1, game.getMessageId());
 			ps.setString(2, game.getOpponentId());
 			ps.setString(3, game.getChallengerId());
 			ps.setInt(4, game.getHeigh());
 			ps.setInt(5, game.getWidth());
+			ps.setString(6, game.getChannelId());
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -462,12 +457,97 @@ public class MySQL {
 			PreparedStatement ps = connection
 					.prepareStatement("CREATE TABLE IF NOT EXISTS viergame ( `messageid` VARCHAR(50) NOT NULL, "
 							+ "`opponentid` VARCHAR(50) NOT NULL, `challengerid` VARCHAR(50) NOT NULL, "
-							+ "`heigh` INT(1) NOT NULL,`width` INT(1) NOT NULL,"
+							+ "`heigh` INT(1) NOT NULL,`width` INT(1) NOT NULL, `channelid`VARCHAR(50) NOT NULL,"
 							+ "PRIMARY KEY(`messageid`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void generateGameTable() {
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+			PreparedStatement ps = connection
+					.prepareStatement("CREATE TABLE IF NOT EXISTS fourgame( `msgid` varchar(50) NOT NULL, "
+							+ "`height` INT(1) NOT NULL, `width` INT(1) NOT NULL, `actplayer`VARCHAR(50) NOT NULL,"
+							+ "`board` TINYTEXT NOT NULL,`player1`VARCHAR(50) NOT NULL,`player2`VARCHAR(50) NOT NULL, "
+							+ "`gameover`TINYINT(1) NOT NULL,`counter` INT(2) NOT NULL,"
+							+ "PRIMARY KEY(`msgid`) ) ENGINE = InnoDB DEFAULT CHARSET = utf8");
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void insertConnectFourData(ConnectFourModel data) {
+
+		try {
+			if (connection.isClosed()) {
+				connect();
+			}
+			PreparedStatement ps = connection.prepareStatement(
+					"REPLACE INTO fourgame (msgid,height,width,actplayer,board,player1,player2,gameover,counter) VALUES (?,?,?,?,?,?,?,?,?)");
+
+			char[][] board = data.getBoard();
+			// set input parameters
+			String boardInText = ""; // height , width
+			for (int j = 0; j < board.length; j++) {
+				for (int i = 0; i < board[0].length; i++) {
+					boardInText += board[j][i] + ";";
+				}
+				boardInText += "\n";
+			}
+			ps.setString(1, data.getMsgId());
+			ps.setInt(2, board.length);
+			ps.setInt(3, board[0].length);
+			ps.setString(4, data.getActPlayer());
+			ps.setString(5, boardInText);
+			ps.setString(6, data.getPlayer1());
+			ps.setString(7, data.getPlayer2());
+			ps.setBoolean(8, data.isGameOver());
+			ps.setInt(9, data.getCounter());
+			ps.execute();
+
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static ConnectFourModel getConnectFourData(String msgId) {
+		PreparedStatement pstmt;
+		try {
+			pstmt = connection.prepareStatement("SELECT * FROM `fourgame` WHERE `msgid` = ?");
+			pstmt.setString(1, msgId);
+
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+
+				String[] rows = rs.getString(5).split("\n");
+
+				char[][] loadedBoard = new char[rows.length][rows.length + 1];
+
+				for (int i = 0; i < rows.length; i++) {
+					String[] colums = rows[i].split(";");
+					for (int j = 0; j < colums.length; j++) {
+						loadedBoard[i][j] = colums[j].charAt(0);
+					}
+				}
+
+				ConnectFourModel cFourModel = new ConnectFourModel(loadedBoard, loadedBoard.length,
+						loadedBoard[0].length, rs.getString(6), rs.getString(7), rs.getString(4), rs.getString(1),
+						rs.getBoolean(8), rs.getInt(9));
+				pstmt.close();
+				rs.close();
+				return cFourModel;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
