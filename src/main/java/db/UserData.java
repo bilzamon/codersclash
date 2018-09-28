@@ -95,7 +95,7 @@ public class UserData {
 			if (this.lvlupNotify) {
 				try {
 					Main.getJda().getUserById(this.userId).openPrivateChannel().queue((channel) -> {
-						channel.sendMessage("Congratulations, you are now level " + level + "! :tada: ").queue();
+						channel.sendMessage("Herzlichen Glückwunsch, du bist nun Level " + level + "! :tada: ").queue();
 					});
 				} catch (Exception e) {
 					e.printStackTrace();

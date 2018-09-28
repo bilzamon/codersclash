@@ -27,16 +27,18 @@ public class ReadyListener extends ListenerAdapter {
 	 */
 	public void onReady(ReadyEvent event) {
 
-		String out = "\nBlue läuft auf:\n" + "----------------------------------\n";
+		String out = "\nUnknownBot läuft auf:\n" + "----------------------------------\n";
 
 		for (Guild g : event.getJDA().getGuilds()) {
-			out += "-" + g.getName() + "\n";
+			out += "-" + g.getName() + "(" + g.getId() + ")" +  "\n";
 		}
 
 		Game[] games = new Game[] {
 
-				Game.playing("xp-System"), Game.playing("Report-System"), Game.playing("MiniGame-Feature"),
-				Game.playing("Voting System") };
+				Game.playing("XP-System"),
+				Game.playing("Report-System"),
+				Game.playing("MiniGame: /vg"),
+				Game.playing("Voting-System") };
 
 		new Timer().schedule(new TimerTask() {
 

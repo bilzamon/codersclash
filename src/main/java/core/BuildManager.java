@@ -34,7 +34,6 @@ public class BuildManager {
 		builder.addEventListener(new VCPrivateTextChannel());
 		builder.addEventListener(new Autochannel());
 		builder.addEventListener(new PrivateVoice());
-		//builder.addEventListener(new VierGewinntListener());
 		builder.addEventListener(new FourConnectListener());
 	}
 }

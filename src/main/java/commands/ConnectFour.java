@@ -49,7 +49,7 @@ public class ConnectFour extends CommandHandler {
 
 		if (width > 6 && width < 9) {
 			if (heigh == width - 1) {
-				if (opponent.toLowerCase().equals(challenger.getName().toLowerCase())) {
+				if (!opponent.toLowerCase().equals(challenger.getName().toLowerCase())) {
 					GameData gameData = new GameData();
 					gameData.setOpponentId(event.getGuild().getMembersByName(opponent, true).get(0).getUser().getId());
 					gameData.setChallengerId(challenger.getId());
